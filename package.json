@@ -4,7 +4,7 @@
   "description": "A particle effect system for Three.js",
   "main": "./lib/index.js",
   "scripts": {
-    "build" : "tsc",
+    "build": "tsc",
     "test": "test"
   },
   "repository": {
@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/LudwigThePig/Three-Particle-Effects#readme",
   "devDependencies": {
+    "prettier": "^2.0.2",
+    "tslint": "^6.1.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
   }
 }
