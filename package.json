@@ -2,8 +2,9 @@
   "name": "three-particle-system",
   "version": "1.0.1",
   "description": "A particle effect system for Three.js",
-  "main": "src/index.js",
+  "main": "./lib/index.js",
   "scripts": {
+    "build" : "tsc",
     "test": "test"
   },
   "repository": {
