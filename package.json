@@ -1,0 +1,25 @@
+{
+  "name": "three-particle-system",
+  "version": "1.0.0",
+  "description": "A particle effect system for Three.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LudwigThePig/Three-Particle-Effects.git"
+  },
+  "keywords": [
+    "three.js",
+    "three",
+    "particle-effects",
+    "particle-system"
+  ],
+  "author": "Morgan Galvin",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/LudwigThePig/Three-Particle-Effects/issues"
+  },
+  "homepage": "https://github.com/LudwigThePig/Three-Particle-Effects#readme"
+}
