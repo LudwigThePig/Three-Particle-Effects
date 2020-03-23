@@ -1,8 +1,8 @@
 {
   "name": "three-particle-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A particle effect system for Three.js",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "test"
   },
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/LudwigThePig/Three-Particle-Effects/issues"
   },
-  "homepage": "https://github.com/LudwigThePig/Three-Particle-Effects#readme"
+  "homepage": "https://github.com/LudwigThePig/Three-Particle-Effects#readme",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
 }
