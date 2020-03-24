@@ -115,5 +115,3 @@ export default class ParticleSystem implements IParticleSystem {
     this.clear();
   }
 }
-
-export default ParticleEffect;
