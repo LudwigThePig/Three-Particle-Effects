@@ -22,7 +22,7 @@ export default class ParticleSystem implements IParticleSystem {
   minParticleSize: number = 0.1;
   maxParticleSize: number = 0.1;
   playOnLoad: boolean = true;
-  shape: IShape = new PlaneShape(1, 1);
+  shape: IShape = new PlaneShape();
   target: Object3D;
 
   particleQueue: Array<THREE.Mesh> = [];
