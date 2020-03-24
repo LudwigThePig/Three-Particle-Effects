@@ -99,6 +99,7 @@ export default class ParticleSystem implements IParticleSystem {
   }
 
   play(): void {
+    this.startTime = Date.now();
     this.isPlaying = true;
   }
 
