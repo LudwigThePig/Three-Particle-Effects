@@ -33,6 +33,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@types/node": "^13.9.3",
     "three": "^0.114.0"
   }
 }
