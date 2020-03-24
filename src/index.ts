@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
 import ConeShape from './shapes/ConeShape';
+import { IParticleSystem } from './types';
 
 const defaultOptions = {
   initialRotation: [
@@ -22,7 +23,7 @@ const defaultOptions = {
   shape: new ConeShape(),
 };
 
-class ParticleEffect {
+export default class ParticleSystem implements IParticleSystem {
   constructor(target, options = {}) {
     // User Defined Values
     options = { ...defaultOptions, options };
