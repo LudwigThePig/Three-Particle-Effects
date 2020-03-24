@@ -21,10 +21,10 @@ export default class ParticleSystem implements IParticleSystem {
   minParticleSize: number = 0.1;
   maxParticleSize: number = 0.1;
   playOnLoad: boolean = true;
-  shape: IShape = new ConeShape();
+  // shape: IShape = new ConeShape();
   target: Object3D;
 
-  particleQueue: Array<Object3D> = [];
+  particleQueue: Array<THREE.Mesh> = [];
   isPlaying: boolean = true;
   elapsedTime: number = 0;
   startTime: number;
@@ -44,7 +44,7 @@ export default class ParticleSystem implements IParticleSystem {
     this.radius = options.radius || this.radius;
     this.rotationRate = options.rotationRate || this.rotationRate;
     this.target = target;
-    this.shape = options.shape || this.shape;
+    // this.shape = options.shape || this.shape;
 
     // Member Variables
     this.startTime = Date.now();
@@ -81,14 +81,14 @@ export default class ParticleSystem implements IParticleSystem {
     }
 
     // cull excess particles
-    const overThreshold = this.particleQueue.length - this.maxParticles;
+    const overThreshold: number = this.particleQueue.length - this.maxParticles;
     if (overThreshold > 0) {
-      const removed = this.particleQueue.splice(0, overThreshold);
+      const removed: Array<THREE.Mesh> = this.particleQueue.splice(0, overThreshold);
       this.target.remove(...removed);
     }
 
     // update current particles
-    this.particleQueue.forEach((particle) => {
+    this.particleQueue.forEach((particle: THREE.Mesh) => {
       particle.position.y += this.particleVelocity * deltaTime;
     });
 
