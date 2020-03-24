@@ -31,5 +31,8 @@
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "three": "^0.114.0"
   }
 }
