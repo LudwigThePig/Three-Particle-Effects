@@ -29,13 +29,13 @@ export default class ParticleSystem implements IParticleSystem {
   elapsedTime: number = 0;
   startTime: number;
 
-  constructor(target: Object3D, options: IParticleOptions = {}) {
+  constructor(target: Object3D, options: IParticleOptions) {
     // User Defined Values
     this.color = options.color || this.color;
     this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
     this.loop = options.loop || this.loop;
     this.minParticleSize = options.minParticleSize || options.maxParticleSize || this.minParticleSize;
-    this.maxParticles = options.maxParticles || this.minParticleSize;
+    this.maxParticles = options.maxParticles || this.maxParticles;
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
     this.particleLifetime = options.particleLifetime || this.particleLifetime;
     this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
