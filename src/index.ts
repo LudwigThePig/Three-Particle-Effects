@@ -4,6 +4,7 @@ import ConeShape from './shapes/cone';
 import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
 import { Object3D } from 'three';
 import PlaneShape from './shapes/plane';
+import { isBool } from './utils/typeCheck';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
@@ -34,14 +35,14 @@ export default class ParticleSystem implements IParticleSystem {
     // User Defined Values
     this.color = options.color || this.color;
     this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
-    this.loop = options.loop || this.loop;
     this.minParticleSize = options.minParticleSize || options.maxParticleSize || this.minParticleSize;
     this.maxParticles = options.maxParticles || this.maxParticles;
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
     this.particleLifetime = options.particleLifetime || this.particleLifetime;
     this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
     this.particleVelocity = options.particleVelocity || this.particleVelocity;
-    this.isPlaying = options.playOnLoad || this.isPlaying;
+    this.loop = isBool(options.loop) ? options.playOnLoad || false : this.loop;
+    this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
     this.radius = options.radius || this.radius;
     this.rotationRate = options.rotationRate || this.rotationRate;
     this.target = target;
@@ -100,6 +101,7 @@ export default class ParticleSystem implements IParticleSystem {
 
   play(): void {
     this.startTime = Date.now();
+    this.elapsedTime = 0;
     this.isPlaying = true;
   }
 
