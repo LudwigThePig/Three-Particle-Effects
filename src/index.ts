@@ -1,16 +1,16 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
 import ConeShape from './shapes/ConeShape';
-import { IParticleSystem } from './types';
+import { IParticleSystem, IParticleOptions } from './types';
 
-const defaultOptions = {
-  initialRotation: [
+const defaultOptions: IParticleOptions = {
+  initialRotationRange: [
     // one of tuple of vec3<float> or vec3<float>. Values in radians
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
   ],
   maxParticles: 100,
-  maxTime: 2000, // in MS
+  particleLifetime: 2000, // in MS
   particlesPerSecond: 50,
   particleVelocity: 1, // units per second
   rotationRate: 0, // in radians
@@ -24,16 +24,16 @@ const defaultOptions = {
 };
 
 export default class ParticleSystem implements IParticleSystem {
-  constructor(target, options = {}) {
+  constructor(target, options: IParticleOptions = {}) {
     // User Defined Values
     options = { ...defaultOptions, options };
     this.color = options.color;
-    this.initialRotation = options.initialRotation;
+    this.initialRotationRange = options.initialRotationRange;
     this.loop = options.loop;
     this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
     this.maxParticles = options.maxParticles;
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
-    this.maxTime = options.maxTime;
+    this.particleLifetime = options.particleLifetime;
     this.particlesPerSecond = options.particlesPerSecond;
     this.particleVelocity = options.particleVelocity;
     this.particleQueue = [];
@@ -58,12 +58,12 @@ export default class ParticleSystem implements IParticleSystem {
     newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
     newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
 
-    if (Array.isArray(this.initialRotation)) {
-      newParticle.rotation.x = randomBoundedFloat(this.initialRotation[0].x, this.initialRotation[1].x);
-      newParticle.rotation.y = randomBoundedFloat(this.initialRotation[0].y, this.initialRotation[1].y);
-      newParticle.rotation.z = randomBoundedFloat(this.initialRotation[0].z, this.initialRotation[1].z);
+    if (Array.isArray(this.initialRotationRange)) {
+      newParticle.rotation.x = randomBoundedFloat(this.initialRotationRange[0].x, this.initialRotationRange[1].x);
+      newParticle.rotation.y = randomBoundedFloat(this.initialRotationRange[0].y, this.initialRotationRange[1].y);
+      newParticle.rotation.z = randomBoundedFloat(this.initialRotationRange[0].z, this.initialRotationRange[1].z);
     } else {
-      newParticle.rotation = this.initialRotation;
+      newParticle.rotation = this.initialRotationRange;
     }
 
     this.target.add(newParticle);
@@ -72,7 +72,7 @@ export default class ParticleSystem implements IParticleSystem {
 
   update(deltaTime = 0.02 /* 50fps */) {
     if (!this.play) return;
-    if (!this.loop && this.elapsedTime > this.maxTime) {
+    if (!this.loop && this.elapsedTime > this.particleLifetime) {
       this.stop();
       return;
     }
