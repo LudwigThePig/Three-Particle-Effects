@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/LudwigThePig/Three-Particle-Effects.git"
   },
+  "files": [
+    "lib/*"
+  ],
   "keywords": [
     "three.js",
     "three",
