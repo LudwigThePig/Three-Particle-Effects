@@ -3,6 +3,7 @@ import { randomBoundedInt, randomBoundedFloat } from './utils/random';
 import ConeShape from './shapes/cone';
 import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
 import { Object3D } from 'three';
+import PlaneShape from './shapes/plane';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
@@ -21,7 +22,7 @@ export default class ParticleSystem implements IParticleSystem {
   minParticleSize: number = 0.1;
   maxParticleSize: number = 0.1;
   playOnLoad: boolean = true;
-  // shape: IShape = new ConeShape();
+  shape: IShape = new PlaneShape();
   target: Object3D;
 
   particleQueue: Array<THREE.Mesh> = [];
@@ -44,7 +45,7 @@ export default class ParticleSystem implements IParticleSystem {
     this.radius = options.radius || this.radius;
     this.rotationRate = options.rotationRate || this.rotationRate;
     this.target = target;
-    // this.shape = options.shape || this.shape;
+    this.shape = options.shape || this.shape;
 
     // Member Variables
     this.startTime = Date.now();

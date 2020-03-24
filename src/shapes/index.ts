@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { IShape, vectorTuple } from '../types';
 import { randomArrayItem } from '../utils/random';
+import { Vector3, Vector2 } from 'three';
 
 export default class BaseShape implements IShape {
   geometry: THREE.Geometry;
@@ -32,7 +33,9 @@ export default class BaseShape implements IShape {
     const scalar = Math.random(); // Where the value is in the lerp
 
     // (x1, y1, z1) + scalar * ((x2, y2, z2) - (x1, y1, z1))
-    return a.add(b.add(a.negate()).multiply(new THREE.Vector3(scalar, scalar, scalar)));
+    const pos: Vector3 = a.add(b.add(a.negate()).multiply(new THREE.Vector3(scalar, scalar, scalar)));
+    const vector: Vector3 = new Vector3(0, Math.PI, 0); // Adjacent to surface
+    return [pos, vector];
   }
 
   bakeRandomValues(verts: number): void {
