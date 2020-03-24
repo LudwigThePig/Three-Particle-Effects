@@ -60,9 +60,6 @@ export default class ParticleSystem implements IParticleSystem {
     const newParticle = new THREE.Mesh(geometry, material);
     const [u, v] = this.shape.getVertex();
     newParticle.position.set(u.x, u.y, u.z);
-    // newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
-    // newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
-    // newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
 
     newParticle.rotation.x = randomBoundedFloat(this.initialRotationRange[0].x, this.initialRotationRange[1].x);
     newParticle.rotation.y = randomBoundedFloat(this.initialRotationRange[0].y, this.initialRotationRange[1].y);

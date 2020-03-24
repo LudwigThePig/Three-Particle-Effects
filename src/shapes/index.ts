@@ -31,14 +31,18 @@ export default class BaseShape implements IShape {
     const a = randomArrayItem(this.geometry.vertices);
     const b = randomArrayItem(this.geometry.vertices);
 
-    const scalar = Math.random(); // Where the value is in the lerp
+    const scalar = Math.random();
     const x = randomBoundedFloat(this.geometry.boundingBox.min.x, this.geometry.boundingBox.max.x);
     const y = randomBoundedFloat(this.geometry.boundingBox.min.y, this.geometry.boundingBox.max.y);
     const z = randomBoundedFloat(this.geometry.boundingBox.min.z, this.geometry.boundingBox.max.z);
+
     // (x1, y1, z1) + scalar * ((x2, y2, z2) - (x1, y1, z1))
     b.sub(a);
     b.multiplyScalar(scalar);
     a.add(b);
+
+    // Placeholder values. Todo: implement proper u and v. Half of the logic is there but I just
+    // need to figure out the 3D projection of ΘXZ and ΘXY
     const vector: Vector3 = new Vector3(0, Math.PI, 0); // Adjacent to surface
     return [new Vector3(x, y, z), vector];
   }
