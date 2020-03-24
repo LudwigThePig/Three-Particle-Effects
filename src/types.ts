@@ -40,7 +40,7 @@ export interface IParticleSystem extends IParticleOptions {
   maxParticleSize: number;
   loop: boolean;
   isPlaying: boolean;
-  shape: IShape;
+  // shape: IShape;
 
   createPaticle(): void;
   update(deltaTime?: number): void;

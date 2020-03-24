@@ -3,6 +3,7 @@ import { randomBoundedInt, randomBoundedFloat } from './utils/random';
 import ConeShape from './shapes/cone';
 import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
 import { Object3D } from 'three';
+import PlaneShape from './shapes/plane';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
@@ -21,21 +22,21 @@ export default class ParticleSystem implements IParticleSystem {
   minParticleSize: number = 0.1;
   maxParticleSize: number = 0.1;
   playOnLoad: boolean = true;
-  shape: IShape = new ConeShape();
+  shape: IShape = new PlaneShape();
   target: Object3D;
 
-  particleQueue: Array<Object3D> = [];
+  particleQueue: Array<THREE.Mesh> = [];
   isPlaying: boolean = true;
   elapsedTime: number = 0;
   startTime: number;
 
-  constructor(target: Object3D, options: IParticleOptions = {}) {
+  constructor(target: Object3D, options: IParticleOptions) {
     // User Defined Values
     this.color = options.color || this.color;
     this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
     this.loop = options.loop || this.loop;
     this.minParticleSize = options.minParticleSize || options.maxParticleSize || this.minParticleSize;
-    this.maxParticles = options.maxParticles || this.minParticleSize;
+    this.maxParticles = options.maxParticles || this.maxParticles;
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
     this.particleLifetime = options.particleLifetime || this.particleLifetime;
     this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
@@ -52,13 +53,15 @@ export default class ParticleSystem implements IParticleSystem {
 
   createPaticle(): void {
     const size = randomBoundedInt(this.minParticleSize, this.maxParticleSize);
-    const geometry = new THREE.BoxBufferGeometry(size, size, size);
+    const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
     const newParticle = new THREE.Mesh(geometry, material);
-    newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
-    newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
-    newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
+    const [u, v] = this.shape.getVertex();
+    newParticle.position.set(u.x, u.y, u.z);
+    // newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
+    // newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
+    // newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
 
     newParticle.rotation.x = randomBoundedFloat(this.initialRotationRange[0].x, this.initialRotationRange[1].x);
     newParticle.rotation.y = randomBoundedFloat(this.initialRotationRange[0].y, this.initialRotationRange[1].y);
@@ -81,14 +84,14 @@ export default class ParticleSystem implements IParticleSystem {
     }
 
     // cull excess particles
-    const overThreshold = this.particleQueue.length - this.maxParticles;
+    const overThreshold: number = this.particleQueue.length - this.maxParticles;
     if (overThreshold > 0) {
-      const removed = this.particleQueue.splice(0, overThreshold);
+      const removed: Array<THREE.Mesh> = this.particleQueue.splice(0, overThreshold);
       this.target.remove(...removed);
     }
 
     // update current particles
-    this.particleQueue.forEach((particle) => {
+    this.particleQueue.forEach((particle: THREE.Mesh) => {
       particle.position.y += this.particleVelocity * deltaTime;
     });
 
