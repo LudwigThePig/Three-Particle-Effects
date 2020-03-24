@@ -1,10 +1,18 @@
-export interface IShape {}
-
-export type vectorRange = [THREE.Vector3, THREE.Vector3];
+export type vectorTuple = [THREE.Vector3, THREE.Vector3];
 export type color = number | string;
 
+export interface IShape {
+  geometry: THREE.Geometry;
+  bakedVertices: number;
+  randomPoints: Array<[THREE.Vector3, THREE.Vector3]>;
+
+  getVertex(): vectorTuple;
+  generateRandomPoint(): vectorTuple;
+  bakeRandomValues(vertices: number): void;
+}
+
 export interface IParticleOptions {
-  initialRotationRange?: vectorRange;
+  initialRotationRange?: vectorTuple;
   maxParticles?: number;
   particleLifetime?: number;
   particlesPerSecond?: number;
@@ -20,7 +28,6 @@ export interface IParticleOptions {
 }
 
 export interface IParticleSystem extends IParticleOptions {
-  new (target: THREE.Object3D, options: IParticleOptions): IParticleSystem;
   color: number | string; // Hexadecimal RGB
   initialRotationRange: [THREE.Vector3, THREE.Vector3];
   maxParticles: number;

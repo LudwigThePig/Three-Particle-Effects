@@ -1,32 +1,12 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
 import ConeShape from './shapes/ConeShape';
-import { IParticleSystem, IParticleOptions, vectorRange, color, IShape } from './types';
+import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
 import { Object3D } from 'three';
 
-const defaultOptions = {
-  initialRotationRange: [
-    // one of tuple of vec3<float> or vec3<float>. Values in radians
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
-  ],
-  maxParticles: 100,
-  particleLifetime: 2000, // in MS
-  particlesPerSecond: 50,
-  particleVelocity: 1, // units per second
-  rotationRate: 0, // in radians
-  radius: new THREE.Vector3(1, 1, 1),
-  minParticleSize: 0.1,
-  maxParticleSize: 0.1,
-  color: 0xedaa67,
-  playOnLoad: true,
-  loop: true,
-  shape: new ConeShape(),
-};
-
-export default class ParticleSystem {
+export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
-  initialRotationRange: vectorRange = [
+  initialRotationRange: vectorTuple = [
     // one of tuple of vec3<float> or vec3<float>. Values in radians
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
