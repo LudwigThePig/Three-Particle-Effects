@@ -1,7 +1,7 @@
 export const randomBool = (): boolean => Math.random() > 0.5;
 
 export const randomArrayItem = (arr: Array<any>): any => {
-  const index = (arr.length - 1) * Math.random();
+  const index = Math.floor((arr.length - 1) * Math.random());
   return arr[index];
 };
 

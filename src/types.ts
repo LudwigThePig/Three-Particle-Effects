@@ -24,7 +24,7 @@ export interface IParticleOptions {
   color?: color; // Hexadecimal RGB
   playOnLoad?: boolean;
   loop?: boolean;
-  // shape?: IShape;
+  shape?: IShape;
 }
 
 export interface IParticleSystem extends IParticleOptions {

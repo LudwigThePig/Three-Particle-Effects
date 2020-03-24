@@ -22,7 +22,7 @@ export default class ParticleSystem implements IParticleSystem {
   minParticleSize: number = 0.1;
   maxParticleSize: number = 0.1;
   playOnLoad: boolean = true;
-  shape: IShape = new PlaneShape();
+  shape: IShape = new PlaneShape(1, 1);
   target: Object3D;
 
   particleQueue: Array<THREE.Mesh> = [];
@@ -57,9 +57,11 @@ export default class ParticleSystem implements IParticleSystem {
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
     const newParticle = new THREE.Mesh(geometry, material);
-    newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
-    newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
-    newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
+    const [u, v] = this.shape.getVertex();
+    newParticle.position.set(u.x, u.y, u.z);
+    // newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
+    // newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
+    // newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
 
     newParticle.rotation.x = randomBoundedFloat(this.initialRotationRange[0].x, this.initialRotationRange[1].x);
     newParticle.rotation.y = randomBoundedFloat(this.initialRotationRange[0].y, this.initialRotationRange[1].y);
