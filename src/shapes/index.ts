@@ -23,8 +23,7 @@ export default class BaseShape implements IShape {
 
   /**
    * This method only works with enclosed shapes. So, if you provide a donut,
-   * it will not have a whole... That is a problem that I would like to solve but
-   * am not smaht enough for
+   * it will not have a hole... Currently researching some possible solutions
    */
   generateRandomPoint(): vectorTuple {
     // Get two random vertices to lerp a value between
