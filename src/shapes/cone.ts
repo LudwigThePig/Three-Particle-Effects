@@ -1,7 +1,8 @@
-export default class ConeShape {
-  constructor() {
-    this.type = 'cone';
-    this.angle = (30 * Math.PI) / 180;
-    this.radiusThickness = 1;
+import { CircleGeometry } from 'THREE';
+import BaseShape from '.';
+
+export default class ConeShape extends BaseShape {
+  constructor(radius: number = 100) {
+    super(new CircleGeometry(radius), 0, 0, 0, 100);
   }
 }

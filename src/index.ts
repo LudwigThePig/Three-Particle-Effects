@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
-import ConeShape from './shapes/ConeShape';
+import ConeShape from './shapes/cone';
 import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
 import { Object3D } from 'three';
 
