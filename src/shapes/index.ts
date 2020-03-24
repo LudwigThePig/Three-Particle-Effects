@@ -27,7 +27,6 @@ export default class BaseShape implements IShape {
    * am not smaht enough for
    */
   generateRandomPoint(): vectorTuple {
-    console.log(this.geometry.vertices);
     // Get two random vertices to lerp a value between
     const a = randomArrayItem(this.geometry.vertices);
     const b = randomArrayItem(this.geometry.vertices);
