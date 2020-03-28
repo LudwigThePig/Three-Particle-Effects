@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
-import ConeShape from './shapes/cone';
-import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
+import { IParticleSystem, IParticleOptions, vectorTuple, particleTuple, color, IShape } from './types';
 import { Object3D } from 'three';
 import PlaneShape from './shapes/plane';
 import { isBool } from './utils/typeCheck';
@@ -26,7 +25,7 @@ export default class ParticleSystem implements IParticleSystem {
   shape: IShape = new PlaneShape();
   target: Object3D;
 
-  particleQueue: Array<THREE.Mesh> = [];
+  particleQueue: Array<particleTuple> = [];
   isPlaying: boolean = true;
   elapsedTime: number = 0;
   startTime: number;
@@ -69,6 +68,12 @@ export default class ParticleSystem implements IParticleSystem {
     this.particleQueue.push(newParticle);
   }
 
+  removeParticles(particles: particleTuple[]): void {
+    for (let [timestamp, mesh] of particles) {
+      this.target.remove(mesh);
+    }
+  }
+
   update(deltaTime: number = 0.02 /* 50fps */): void {
     if (!this.isPlaying) return;
     if (!this.loop && this.elapsedTime > this.particleLifetime) {
@@ -81,16 +86,24 @@ export default class ParticleSystem implements IParticleSystem {
       this.createPaticle();
     }
 
+    // cull old particles
+    const timeThreshold = Date.now() - this.particleLifetime;
+    for (let i = 0; i < this.particleQueue.length; i++) {
+      if (this.particleQueue[i][0] > timeThreshold) {
+        this.removeParticles(this.particleQueue.splice(0, i));
+      }
+    }
+
     // cull excess particles
     const overThreshold: number = this.particleQueue.length - this.maxParticles;
     if (overThreshold > 0) {
-      const removed: Array<THREE.Mesh> = this.particleQueue.splice(0, overThreshold);
-      this.target.remove(...removed);
+      const removed = this.particleQueue.splice(0, overThreshold);
+      removed.forEach(([timestamp, mesh]: particleTuple) => this.target.remove(mesh));
     }
 
     // update current particles
-    this.particleQueue.forEach((particle: THREE.Mesh) => {
-      particle.position.y += this.particleVelocity * deltaTime;
+    this.particleQueue.forEach(([timestamp, mesh]: particleTuple) => {
+      mesh.position.y += this.particleVelocity * deltaTime;
     });
 
     this.elapsedTime = Date.now() - this.startTime;
