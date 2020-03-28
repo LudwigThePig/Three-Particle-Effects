@@ -1,5 +1,6 @@
 export type vectorTuple = [THREE.Vector3, THREE.Vector3];
 export type color = number | string;
+export declare type particleTuple = [number, THREE.Mesh]; // [timestamp, theParticleMesh]
 
 export interface IShape {
   geometry: THREE.Geometry;
@@ -23,6 +24,7 @@ export interface IParticleOptions {
   maxParticleSize?: number;
   color?: color; // Hexadecimal RGB
   playOnLoad?: boolean;
+  duration?: number;
   loop?: boolean;
   shape?: IShape;
 }

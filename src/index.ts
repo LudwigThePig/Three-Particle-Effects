@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
-import ConeShape from './shapes/cone';
-import { IParticleSystem, IParticleOptions, vectorTuple, color, IShape } from './types';
+import { IParticleSystem, IParticleOptions, vectorTuple, particleTuple, color, IShape } from './types';
 import { Object3D } from 'three';
 import PlaneShape from './shapes/plane';
 import { isBool } from './utils/typeCheck';
@@ -26,7 +25,8 @@ export default class ParticleSystem implements IParticleSystem {
   shape: IShape = new PlaneShape();
   target: Object3D;
 
-  particleQueue: Array<THREE.Mesh> = [];
+  particleQueue: particleTuple[] = [];
+  duration: number = 2000; // in MS
   isPlaying: boolean = true;
   elapsedTime: number = 0;
   startTime: number;
@@ -42,6 +42,7 @@ export default class ParticleSystem implements IParticleSystem {
     this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
     this.particleVelocity = options.particleVelocity || this.particleVelocity;
     this.loop = isBool(options.loop) ? options.playOnLoad || false : this.loop;
+    this.duration = options.duration || this.duration;
     this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
     this.radius = options.radius || this.radius;
     this.rotationRate = options.rotationRate || this.rotationRate;
@@ -66,31 +67,49 @@ export default class ParticleSystem implements IParticleSystem {
     newParticle.rotation.z = randomBoundedFloat(this.initialRotationRange[0].z, this.initialRotationRange[1].z);
 
     this.target.add(newParticle);
-    this.particleQueue.push(newParticle);
+    this.particleQueue.push([Date.now(), newParticle]);
+  }
+
+  removeParticles(particles: particleTuple[]): void {
+    for (let [timestamp, mesh] of particles) {
+      this.target.remove(mesh);
+    }
   }
 
   update(deltaTime: number = 0.02 /* 50fps */): void {
     if (!this.isPlaying) return;
-    if (!this.loop && this.elapsedTime > this.particleLifetime) {
+    if (!this.loop && this.elapsedTime > this.duration && !this.particleQueue.length) {
+      // No more particles being produced
       this.stop();
       return;
     }
 
     // create new particles
-    for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
-      this.createPaticle();
+    if (this.loop || this.elapsedTime < this.duration) {
+      for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
+        this.createPaticle();
+      }
+    }
+
+    // cull old particles
+    const timeThreshold = Date.now() - this.particleLifetime;
+    for (let i = 0; i < this.particleQueue.length; i++) {
+      if (this.particleQueue[i][0] < timeThreshold) {
+        const removed = this.particleQueue.splice(0, i + 1);
+        this.removeParticles(removed);
+      }
     }
 
     // cull excess particles
     const overThreshold: number = this.particleQueue.length - this.maxParticles;
     if (overThreshold > 0) {
-      const removed: Array<THREE.Mesh> = this.particleQueue.splice(0, overThreshold);
-      this.target.remove(...removed);
+      const removed = this.particleQueue.splice(0, overThreshold);
+      this.removeParticles(removed);
     }
 
     // update current particles
-    this.particleQueue.forEach((particle: THREE.Mesh) => {
-      particle.position.y += this.particleVelocity * deltaTime;
+    this.particleQueue.forEach(([timestamp, mesh]: particleTuple) => {
+      mesh.position.y += this.particleVelocity * deltaTime;
     });
 
     this.elapsedTime = Date.now() - this.startTime;
@@ -107,7 +126,7 @@ export default class ParticleSystem implements IParticleSystem {
   }
 
   clear(): void {
-    this.target.remove(...this.particleQueue);
+    this.removeParticles(this.particleQueue);
     this.particleQueue = [];
   }
 
