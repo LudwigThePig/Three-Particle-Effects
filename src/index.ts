@@ -25,7 +25,7 @@ export default class ParticleSystem implements IParticleSystem {
   shape: IShape = new PlaneShape();
   target: Object3D;
 
-  particleQueue: Array<particleTuple> = [];
+  private particleQueue: particleTuple[] = [];
   isPlaying: boolean = true;
   elapsedTime: number = 0;
   startTime: number;
@@ -65,7 +65,7 @@ export default class ParticleSystem implements IParticleSystem {
     newParticle.rotation.z = randomBoundedFloat(this.initialRotationRange[0].z, this.initialRotationRange[1].z);
 
     this.target.add(newParticle);
-    this.particleQueue.push(newParticle);
+    this.particleQueue.push([Date.now(), newParticle]);
   }
 
   removeParticles(particles: particleTuple[]): void {
@@ -120,7 +120,7 @@ export default class ParticleSystem implements IParticleSystem {
   }
 
   clear(): void {
-    this.target.remove(...this.particleQueue);
+    this.removeParticles(this.particleQueue);
     this.particleQueue = [];
   }
 
