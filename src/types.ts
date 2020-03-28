@@ -24,6 +24,7 @@ export interface IParticleOptions {
   maxParticleSize?: number;
   color?: color; // Hexadecimal RGB
   playOnLoad?: boolean;
+  duration?: number;
   loop?: boolean;
   shape?: IShape;
 }

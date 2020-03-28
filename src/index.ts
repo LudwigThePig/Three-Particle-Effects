@@ -25,7 +25,8 @@ export default class ParticleSystem implements IParticleSystem {
   shape: IShape = new PlaneShape();
   target: Object3D;
 
-  private particleQueue: particleTuple[] = [];
+  particleQueue: particleTuple[] = [];
+  duration: number = 2000; // in MS
   isPlaying: boolean = true;
   elapsedTime: number = 0;
   startTime: number;
@@ -41,6 +42,7 @@ export default class ParticleSystem implements IParticleSystem {
     this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
     this.particleVelocity = options.particleVelocity || this.particleVelocity;
     this.loop = isBool(options.loop) ? options.playOnLoad || false : this.loop;
+    this.duration = options.duration || this.duration;
     this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
     this.radius = options.radius || this.radius;
     this.rotationRate = options.rotationRate || this.rotationRate;
@@ -76,21 +78,24 @@ export default class ParticleSystem implements IParticleSystem {
 
   update(deltaTime: number = 0.02 /* 50fps */): void {
     if (!this.isPlaying) return;
-    if (!this.loop && this.elapsedTime > this.particleLifetime) {
+    if (!this.loop && this.elapsedTime > this.duration && !this.particleQueue.length) {
+      // No more particles being produced
       this.stop();
       return;
     }
 
     // create new particles
-    for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
-      this.createPaticle();
+    if (this.loop || this.elapsedTime < this.duration) {
+      for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
+        this.createPaticle();
+      }
     }
 
     // cull old particles
     const timeThreshold = Date.now() - this.particleLifetime;
     for (let i = 0; i < this.particleQueue.length; i++) {
       if (this.particleQueue[i][0] < timeThreshold) {
-        const removed = this.particleQueue.splice(0, i);
+        const removed = this.particleQueue.splice(0, i + 1);
         this.removeParticles(removed);
       }
     }
