@@ -89,7 +89,7 @@ export default class ParticleSystem implements IParticleSystem {
     // cull old particles
     const timeThreshold = Date.now() - this.particleLifetime;
     for (let i = 0; i < this.particleQueue.length; i++) {
-      if (this.particleQueue[i][0] > timeThreshold) {
+      if (this.particleQueue[i][0] < timeThreshold) {
         const removed = this.particleQueue.splice(0, i);
         this.removeParticles(removed);
       }
