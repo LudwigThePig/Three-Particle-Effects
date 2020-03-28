@@ -90,7 +90,8 @@ export default class ParticleSystem implements IParticleSystem {
     const timeThreshold = Date.now() - this.particleLifetime;
     for (let i = 0; i < this.particleQueue.length; i++) {
       if (this.particleQueue[i][0] > timeThreshold) {
-        this.removeParticles(this.particleQueue.splice(0, i));
+        const removed = this.particleQueue.splice(0, i);
+        this.removeParticles(removed);
       }
     }
 
@@ -98,7 +99,7 @@ export default class ParticleSystem implements IParticleSystem {
     const overThreshold: number = this.particleQueue.length - this.maxParticles;
     if (overThreshold > 0) {
       const removed = this.particleQueue.splice(0, overThreshold);
-      removed.forEach(([timestamp, mesh]: particleTuple) => this.target.remove(mesh));
+      this.removeParticles(removed);
     }
 
     // update current particles
