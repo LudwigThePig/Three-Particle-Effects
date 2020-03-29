@@ -7,47 +7,48 @@ import { isBool } from './utils/typeCheck';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
+  duration: number = 2000; // in MS
+  elapsedTime: number = 0;
+  globalPosition: boolean = true;
   initialRotationRange: vectorTuple = [
     // one of tuple of vec3<float> or vec3<float>. Values in radians
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
   ];
-  loop: boolean = true;
-  maxParticles: number = 100;
-  particleLifetime: number = 2000; // in MS
-  particlesPerSecond: number = 50;
-  particleVelocity: number = 1; // units per second
-  rotationRate: number = 0; // in radians
-  radius: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
-  minParticleSize: number = 0.1;
-  maxParticleSize: number = 0.1;
-  playOnLoad: boolean = true;
-  shape: IShape = new PlaneShape();
-  target: Object3D;
-
-  particleQueue: particleTuple[] = [];
-  duration: number = 2000; // in MS
   isPlaying: boolean = true;
-  elapsedTime: number = 0;
+  loop: boolean = true;
+  maxParticleSize: number = 0.1;
+  maxParticles: number = 100;
+  minParticleSize: number = 0.1;
+  particleLifetime: number = 2000; // in MS
+  particleQueue: particleTuple[] = [];
+  particleVelocity: number = 1; // units per second
+  particlesPerSecond: number = 50;
+  playOnLoad: boolean = true;
+  radius: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
+  rotationRate: number = 0; // in radians
+  shape: IShape = new PlaneShape();
   startTime: number;
+  target: Object3D;
 
   constructor(target: Object3D, options: IParticleOptions) {
     // User Defined Values
     this.color = options.color || this.color;
-    this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
-    this.minParticleSize = options.minParticleSize || options.maxParticleSize || this.minParticleSize;
-    this.maxParticles = options.maxParticles || this.maxParticles;
-    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
-    this.particleLifetime = options.particleLifetime || this.particleLifetime;
-    this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
-    this.particleVelocity = options.particleVelocity || this.particleVelocity;
-    this.loop = isBool(options.loop) ? options.playOnLoad || false : this.loop;
     this.duration = options.duration || this.duration;
+    this.globalPosition = isBool(options.globalPosition) ? options.globalPosition || this.globalPosition;
+    this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
     this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
+    this.loop = isBool(options.loop) ? options.playOnLoad || false : this.loop;
+    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
+    this.maxParticles = options.maxParticles || this.maxParticles;
+    this.minParticleSize = options.minParticleSize || options.maxParticleSize || this.minParticleSize;
+    this.particleLifetime = options.particleLifetime || this.particleLifetime;
+    this.particleVelocity = options.particleVelocity || this.particleVelocity;
+    this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
     this.radius = options.radius || this.radius;
     this.rotationRate = options.rotationRate || this.rotationRate;
-    this.target = target;
     this.shape = options.shape || this.shape;
+    this.target = target;
 
     // Member Variables
     this.startTime = Date.now();

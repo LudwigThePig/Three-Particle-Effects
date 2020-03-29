@@ -13,6 +13,7 @@ export interface IShape {
 }
 
 export interface IParticleOptions {
+  globalPosition?: boolean;
   initialRotationRange?: vectorTuple;
   maxParticles?: number;
   particleLifetime?: number;
