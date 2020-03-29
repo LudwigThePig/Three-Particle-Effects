@@ -26,7 +26,15 @@ import ParticleSystem from 'three-particle-system';
 const myObject = new THREE.Object3D();
 const particles = new ParticleSystem(myObject);
 
-particles.stop();
+// example render method
+const draw = () => {
+  renderer.render(scene, camera);
+  requestAnimationFrame(draw);
+  // ...
+  particles.update(); // call update every frame
+};
+
+particles.stop(); // to stop
 ```
 
 ## API
@@ -144,7 +152,6 @@ The `ParticleSystem`'s constructor takes two arguments, the target object to att
 **Type**: boolean
 
 **Default**: false
-
 
 # Disclaimer
 
