@@ -71,7 +71,7 @@ export default class ParticleSystem implements IParticleSystem {
 
     if (this.worldSpace && this.scene) {
       const pos = new Vector3();
-      newParticle.getWorldPosition(pos);
+      this.target.getWorldPosition(pos);
       pos.add(u);
 
       newParticle.position.set(pos.x, pos.y, pos.z);
