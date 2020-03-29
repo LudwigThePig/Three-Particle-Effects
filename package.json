@@ -1,6 +1,6 @@
 {
   "name": "three-particle-system",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A particle effect system for Three.js",
   "main": "./lib/index.js",
   "scripts": {
