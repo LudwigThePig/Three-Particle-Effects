@@ -13,7 +13,6 @@ export interface IShape {
 }
 
 export interface IParticleOptions {
-  globalPosition?: boolean;
   initialRotationRange?: vectorTuple;
   maxParticles?: number;
   particleLifetime?: number;
@@ -28,6 +27,7 @@ export interface IParticleOptions {
   duration?: number;
   loop?: boolean;
   shape?: IShape;
+  worldSpace?: boolean;
 }
 
 export interface IParticleSystem extends IParticleOptions {

@@ -9,7 +9,6 @@ export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
   duration: number = 2000; // in MS
   elapsedTime: number = 0;
-  globalPosition: boolean = true;
   initialRotationRange: vectorTuple = [
     // one of tuple of vec3<float> or vec3<float>. Values in radians
     new THREE.Vector3(0, 0, 0),
@@ -30,12 +29,12 @@ export default class ParticleSystem implements IParticleSystem {
   shape: IShape = new PlaneShape();
   startTime: number;
   target: Object3D;
+  worldSpace: boolean = true;
 
   constructor(target: Object3D, options: IParticleOptions) {
     // User Defined Values
     this.color = options.color || this.color;
     this.duration = options.duration || this.duration;
-    this.globalPosition = isBool(options.globalPosition) ? options.globalPosition || this.globalPosition;
     this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
     this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
     this.loop = isBool(options.loop) ? options.playOnLoad || false : this.loop;
@@ -49,7 +48,8 @@ export default class ParticleSystem implements IParticleSystem {
     this.rotationRate = options.rotationRate || this.rotationRate;
     this.shape = options.shape || this.shape;
     this.target = target;
-
+    this.worldSpace = isBool(options.worldSpace) ? options.worldSpace || this.worldSpace;
+    
     // Member Variables
     this.startTime = Date.now();
   }
@@ -110,6 +110,7 @@ export default class ParticleSystem implements IParticleSystem {
 
     // update current particles
     this.particleQueue.forEach(([timestamp, mesh]: particleTuple) => {
+      mesh.getWorldPosition(mesh.position);
       mesh.position.y += this.particleVelocity * deltaTime;
     });
 
