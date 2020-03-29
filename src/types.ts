@@ -27,6 +27,7 @@ export interface IParticleOptions {
   duration?: number;
   loop?: boolean;
   shape?: IShape;
+  worldSpace?: boolean;
 }
 
 export interface IParticleSystem extends IParticleOptions {

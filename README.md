@@ -33,6 +33,14 @@ particles.stop();
 
 The `ParticleSystem`'s constructor takes two arguments, the target object to attach the particle system to and the options object. Below are all of the options you can provide.
 
+### target
+
+**Description**: The object to attach the particle system to. This Object3D must be added to the scene prior to declaring `new ParticleSystem(target)`
+
+**Type**: Object3D
+
+**Required**: true
+
 ### Color
 
 **Description**: The color of the particle in hexadecimal format.
@@ -64,6 +72,14 @@ The `ParticleSystem`'s constructor takes two arguments, the target object to att
 **Type**: boolean
 
 **Default**: true
+
+### duration
+
+**Description**: The duration of the particle effect in milliseconds. Note, this only describes how long particles are produced for. Particles alive after the duration has elapsed will live until they reach the end of their `particleLifetime`
+
+**Type**: number
+
+**Default**: 2000
 
 ### maxParticles
 
@@ -120,6 +136,15 @@ The `ParticleSystem`'s constructor takes two arguments, the target object to att
 **Type**: IShape
 
 **Default**: PlaneShape
+
+### worldSpace
+
+**Description**: Place new particles in world space, regardless of the target's position. So, updated particles will move in relative space and not relative to the target.
+
+**Type**: boolean
+
+**Default**: false
+
 
 # Disclaimer
 
