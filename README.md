@@ -65,6 +65,14 @@ The `ParticleSystem`'s constructor takes two arguments, the target object to att
 
 **Default**: true
 
+### duration
+
+**Description**: The duration of the particle effect in milliseconds. Note, this only describes how long particles are produced for. Particles alive after the duration has elapsed will live until they reach the end of their `particleLifetime`
+
+**Type**: number
+
+**Default**: 2000
+
 ### maxParticles
 
 **Description**: The maximum number of particles to be rendered.
