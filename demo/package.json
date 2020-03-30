@@ -4,8 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config webpack.config.js -d -w",
+    "start": "http-server ./index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.115.0",
+    "webpack": "^4.42.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.1"
+  }
 }
