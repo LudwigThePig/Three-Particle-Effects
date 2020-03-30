@@ -1,0 +1,23 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js -d -w",
+    "start:dev": "http-server ./ -p 3000  -c-1",
+    "start": "webpack --config webpack.config.js -d && http-server ./ -p 3000  -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.115.0",
+    "three-orbit-controls": "^82.1.0",
+    "webpack": "^4.42.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
