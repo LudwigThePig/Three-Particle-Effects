@@ -19,7 +19,6 @@ scene.background = new THREE.Color(0x000000);
 /* *******
  * Lights *
  ******** */
-
 const ambientLight = new THREE.AmbientLight(0xfefefe, 0.8); // soft white light
 scene.add(ambientLight);
 
@@ -30,20 +29,18 @@ const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerH
 camera.position.set(0, 1, -8);
 camera.lookAt(scene.position);
 
+/* ***********
+ * Character *
+ *********** */
+const characterGeometry = new THREE.BoxGeometry(1, 1, 1);
+const characterMaterial = new THREE.MeshPhongMaterial(0xffeeff);
+const character = new THREE.Mesh(characterGeometry, characterMaterial);
+scene.add(character);
+
 /**✨✨✨✨✨✨✨✨
  *  Particle Effects ✨
  ✨✨✨✨✨✨✨✨ */
-const particles = new ParticleSystem(scene, {
-  particleVelocity: 1,
-  playOnLoad: false,
-  loop: false,
-  color: 0xffff00,
-  maxParticles: 1000,
-  particleLifetime: 2000,
-  duration: 1000,
-  particlesPerSecond: 100,
-  worldSpace: true,
-});
+const particles = new ParticleSystem(character, {});
 
 /* ***************
  * Main Game Loop *
