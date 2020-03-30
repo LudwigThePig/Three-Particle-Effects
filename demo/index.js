@@ -30,6 +30,9 @@ const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerH
 camera.position.set(0, 1, -8);
 camera.lookAt(scene.position);
 
+/**✨✨✨✨✨✨✨✨
+ *  Particle Effects ✨
+ ✨✨✨✨✨✨✨✨ */
 const particles = new ParticleSystem(scene, {
   particleVelocity: 1,
   playOnLoad: false,
