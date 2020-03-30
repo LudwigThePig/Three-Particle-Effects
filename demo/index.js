@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import ParticleSystem from '../lib';
+import orbitControls from 'three-orbit-controls';
+const OrbitControls = orbitControls(THREE);
 
 /* *********
  * Renderer *
@@ -28,12 +30,15 @@ scene.add(ambientLight);
 const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);
 camera.position.set(0, 1, -8);
 camera.lookAt(scene.position);
+const controls = new OrbitControls(camera, document.getElementById('canvas-container'));
+controls.minDistance = 0;
+controls.maxDistance = 40;
 
 /* ***********
  * Character *
  *********** */
 const characterGeometry = new THREE.BoxGeometry(1, 1, 1);
-const characterMaterial = new THREE.MeshPhongMaterial(0xffeeff);
+const characterMaterial = new THREE.MeshPhongMaterial({ color: 0xed6767 });
 const character = new THREE.Mesh(characterGeometry, characterMaterial);
 scene.add(character);
 
@@ -49,6 +54,7 @@ const draw = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
   particles.update();
+  controls.update();
 };
 
 /* *********************
@@ -60,8 +66,6 @@ const onWindowResize = () => {
   camera.updateProjectionMatrix();
 };
 window.addEventListener('resize', onWindowResize);
-
-export default renderer;
 
 window.onload = () => {
   document.getElementById('canvas-container').appendChild(renderer.domElement);
