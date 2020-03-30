@@ -1,15 +1,14 @@
-require('dotenv');
 const path = require('path');
 
 module.exports = {
   entry: {
-    main: './src/index.js',
+    main: './index.js',
   },
   resolve: {
     extensions: ['.js'],
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'js'),
+    path: path.resolve(__dirname),
   },
 };
