@@ -1,8 +1,21 @@
 html {
   line-height: 1.15;
+  font-family: 'Roboto', sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 body {
   margin: 0;
   overflow: hidden;
+}
+
+main {
+  box-sizing: border-box;
+  position: fixed;
+  max-width: 400px;
+  padding: 10px 18px;
+  background: #00000099;
+  color: #fff;
+  border: 1px solid #ed6767;
+  right: 5vw;
+  top: 100px;
 }
