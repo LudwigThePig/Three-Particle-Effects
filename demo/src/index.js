@@ -4,8 +4,6 @@ const $ = (query) => document.querySelector(query); // this feels so wrong
 
 const btn = document.getElementById('toggle-options');
 const ctr = document.getElementById('options-ctr');
-const particleVelocityInput = $('#particle-velocity input[type="range"]');
-const particleVelocityDisplay = $('#particle-velocity .display');
 
 // If dev, display ctr by default
 if (window.location.host.slice(0, 9) === 'localhost') {
@@ -19,10 +17,25 @@ btn.addEventListener('click', (e) => {
   ctr.classList.toggle('active');
 });
 
+// _____________ PARTICLES VELOCITY  _____________
+const particleVelocityInput = $('#particle-velocity input[type="range"]');
+const particleVelocityDisplay = $('#particle-velocity .display');
 particleVelocityInput.value = particles.particleVelocity;
 particleVelocityDisplay.innerHTML = particles.particleVelocity;
+
 particleVelocityInput.addEventListener('change', (e) => {
   const { value } = e.target;
   particleVelocityDisplay.innerHTML = value;
   particles.particleVelocity = value;
+});
+
+// _____________ PARTICLES PER SECOND _____________
+const particlePerSecond = $('#particle-per-second input[type="range"]');
+const particlePerSecondDisplay = $('#particle-per-second .display');
+particlePerSecond.value = particles.particlesPerSecond;
+particlePerSecondDisplay.innerHTML = particles.particlesPerSecond;
+particlePerSecond.addEventListener('change', (e) => {
+  const { value } = e.target;
+  particlePerSecondDisplay.innerHTML = value;
+  particles.particlesPerSecond = value;
 });
