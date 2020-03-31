@@ -9,12 +9,24 @@
   </head>
   <body>
     <main>
-      <h1>Options</h1>
-      <div class="input-ctr">
-        <p>Particle Velocity</p>
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange" />
+      <button name="toggle-options" role="button" id="toggle-options">Options</button>
+      <div id="options-ctr">
+        <div class="input-ctr">
+          <p>Particle Velocity</p>
+          <input type="range" min="1" max="100" value="50" class="slider" id="myRange" />
+        </div>
       </div>
     </main>
+
+    <script>
+      const btn = document.getElementById('toggle-options');
+      const ctr = document.getElementById('options-ctr');
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        ctr.classList.toggle('active');
+      });
+    </script>
     <div id="canvas-container"></div>
     <script src="bundle.js"></script>
   </body>
