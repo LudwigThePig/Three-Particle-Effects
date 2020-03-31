@@ -23,6 +23,8 @@ main {
 
 p {
   font-size: 18px;
+  line-height: 1em;
+  margin: 0;
 }
 
 #options-ctr:not(.active) {
@@ -37,6 +39,7 @@ button {
   color: white;
   background: #ed6767;
   border: none;
+  font-size: 18px;
   padding: 10px;
 }
 
