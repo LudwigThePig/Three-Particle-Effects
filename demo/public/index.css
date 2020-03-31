@@ -11,6 +11,8 @@ body {
 main {
   box-sizing: border-box;
   position: fixed;
+  display: flex;
+  flex-direction: column;
   width: 80vw;
   max-height: 50vh;
   left: 10vw;
@@ -19,6 +21,20 @@ main {
   background: #00000099;
   color: #fff;
   border: 1px solid #ed6767;
+}
+
+@media screen and (min-width: 600px) {
+  main {
+    max-width: 30vw;
+    left: auto;
+    bottom: auto;
+    top: 50px;
+    right: 50px;
+    flex-direction: column-reverse;
+  }
+  #options-ctr {
+    margin-top: 20px;
+  }
 }
 
 p {
