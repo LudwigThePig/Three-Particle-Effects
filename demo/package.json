@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js -d -w",
-    "start:dev": "http-server ./ -p 3000  -c-1",
-    "start": "webpack --config webpack.config.js -d && http-server ./ -p 3000  -c-1",
+    "start:dev": "http-server ./public -p 3000  -c-1",
+    "start": "webpack --config webpack.config.js -d && http-server ./public -p 3000  -c-1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

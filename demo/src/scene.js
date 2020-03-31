@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import ParticleSystem from '../lib';
+import ParticleSystem from '../../lib';
 import orbitControls from 'three-orbit-controls';
 const OrbitControls = orbitControls(THREE);
 
@@ -22,6 +22,9 @@ scene.background = new THREE.Color(0x000000);
  * Lights *
  ******** */
 const ambientLight = new THREE.AmbientLight(0xfefefe, 0.8); // soft white light
+const pointLight = new THREE.PointLight(0xfefefe, 0.8, 10);
+pointLight.position.set(2, 2, -1.5);
+scene.add(pointLight);
 scene.add(ambientLight);
 
 /* *******
@@ -40,12 +43,13 @@ controls.maxDistance = 40;
 const characterGeometry = new THREE.BoxGeometry(1, 1, 1);
 const characterMaterial = new THREE.MeshPhongMaterial({ color: 0xed6767 });
 const character = new THREE.Mesh(characterGeometry, characterMaterial);
+character.rotateY(Math.PI / 3);
 scene.add(character);
 
 /**✨✨✨✨✨✨✨✨
  *  Particle Effects ✨
  ✨✨✨✨✨✨✨✨ */
-const particles = new ParticleSystem(character, {});
+export const particles = new ParticleSystem(character, {});
 
 /* ***************
  * Main Game Loop *
