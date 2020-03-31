@@ -21,6 +21,10 @@ main {
   border: 1px solid #ed6767;
 }
 
+p {
+  font-size: 18px;
+}
+
 #options-ctr:not(.active) {
   display: none;
 }
