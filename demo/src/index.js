@@ -8,10 +8,14 @@ const particleVelocityInput = $('#particle-velocity input[type="range"]');
 const particleVelocityDisplay = $('#particle-velocity .display');
 
 // If dev, display ctr by default
-if (window.location.host.slice(0, 9) === 'localhost') ctr.classList.toggle('active');
+if (window.location.host.slice(0, 9) === 'localhost') {
+  ctr.classList.toggle('active');
+  btn.classList.toggle('active');
+}
 
 btn.addEventListener('click', (e) => {
   e.preventDefault();
+  btn.classList.toggle('active');
   ctr.classList.toggle('active');
 });
 

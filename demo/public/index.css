@@ -53,10 +53,46 @@ p {
 button {
   width: 100%;
   color: white;
-  background: #ed6767;
   border: none;
   font-size: 18px;
   padding: 10px;
+  cursor: pointer;
+  background-repeat: repeat;
+  background: #ed6767;
+}
+
+button:not(.active) {
+  background-size: 200%;
+  background-image: linear-gradient(-35deg, #ed6767, #9198e5);
+  animation: bg-pan-left 2s infinite;
+  -webkit-animation: bg-pan-left 2s infinite;
+}
+
+button:focus {
+  outline: none;
+}
+
+@-webkit-keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }
 
 input[type='range'] {
