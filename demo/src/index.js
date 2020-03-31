@@ -39,3 +39,14 @@ particlePerSecond.addEventListener('change', (e) => {
   particlePerSecondDisplay.innerHTML = value;
   particles.particlesPerSecond = value;
 });
+
+// _____________ MAX PARTICLES _____________
+const maxParticles = $('#max-particles input[type="range"]');
+const maxParticlesDisplay = $('#max-particles .display');
+maxParticles.value = particles.maxParticles;
+maxParticlesDisplay.innerHTML = particles.maxParticles;
+maxParticles.addEventListener('change', (e) => {
+  const { value } = e.target;
+  maxParticlesDisplay.innerHTML = value;
+  particles.maxParticles = value;
+});
