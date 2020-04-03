@@ -1,6 +1,7 @@
 import { particles } from './scene';
 
 const $ = query => document.querySelector(query); // this feels so wrong
+const $a = query => document.querySelectorAll(query); // this feels so wrong
 
 const btn = document.getElementById('toggle-options');
 const ctr = document.getElementById('options-ctr');
@@ -52,12 +53,23 @@ maxParticles.addEventListener('change', e => {
 });
 
 // _____________ MIN PARTICLES SIZE _____________
-const minParticleSize = $('#min-particle-size input[type="range"]');
-const minParticleSizeDisplay = $('#min-particle-size .display');
-minParticleSize.value = particles.minParticleSize;
-minParticleSizeDisplay.innerHTML = particles.minParticleSize;
-minParticleSize.addEventListener('change', e => {
-  const { value } = e.target;
-  minParticleSizeDisplay.innerHTML = value;
-  particles.minParticleSize = value;
+const particleSliders = $a('#min-particle-size input[type="range"]');
+const particleSizeDisplay = $('#min-particle-size .display');
+particleSliders[0].value = particles.minParticleSize;
+particleSliders[1].value = particles.maxParticleSize;
+particleSizeDisplay.innerHTML = particles.minParticleSize;
+
+particleSliders.forEach(el => {
+  el.addEventListener('change', e => {
+    const { value } = e.target;
+    const min = particleSliders.minParticleSize;
+    const max = particleSliders.maxParticleSize;
+    if (value < min && value < max) {
+      particleSizeDisplay.innerHTML = `${value} to ${max}`;
+      particles.minParticleSize = value;
+    } else {
+      particleSizeDisplay.innerHTML = `${min} to ${value}`;
+      particles.minParticleSize = value;
+    }
+  });
 });
