@@ -1,6 +1,6 @@
 import { particles } from './scene';
 
-const $ = (query) => document.querySelector(query); // this feels so wrong
+const $ = query => document.querySelector(query); // this feels so wrong
 
 const btn = document.getElementById('toggle-options');
 const ctr = document.getElementById('options-ctr');
@@ -11,7 +11,7 @@ if (window.location.host.slice(0, 9) === 'localhost') {
   btn.classList.toggle('active');
 }
 
-btn.addEventListener('click', (e) => {
+btn.addEventListener('click', e => {
   e.preventDefault();
   btn.classList.toggle('active');
   ctr.classList.toggle('active');
@@ -23,7 +23,7 @@ const particleVelocityDisplay = $('#particle-velocity .display');
 particleVelocityInput.value = particles.particleVelocity;
 particleVelocityDisplay.innerHTML = particles.particleVelocity;
 
-particleVelocityInput.addEventListener('change', (e) => {
+particleVelocityInput.addEventListener('change', e => {
   const { value } = e.target;
   particleVelocityDisplay.innerHTML = value;
   particles.particleVelocity = value;
@@ -34,7 +34,7 @@ const particlePerSecond = $('#particle-per-second input[type="range"]');
 const particlePerSecondDisplay = $('#particle-per-second .display');
 particlePerSecond.value = particles.particlesPerSecond;
 particlePerSecondDisplay.innerHTML = particles.particlesPerSecond;
-particlePerSecond.addEventListener('change', (e) => {
+particlePerSecond.addEventListener('change', e => {
   const { value } = e.target;
   particlePerSecondDisplay.innerHTML = value;
   particles.particlesPerSecond = value;
@@ -45,7 +45,7 @@ const maxParticles = $('#max-particles input[type="range"]');
 const maxParticlesDisplay = $('#max-particles .display');
 maxParticles.value = particles.maxParticles;
 maxParticlesDisplay.innerHTML = particles.maxParticles;
-maxParticles.addEventListener('change', (e) => {
+maxParticles.addEventListener('change', e => {
   const { value } = e.target;
   maxParticlesDisplay.innerHTML = value;
   particles.maxParticles = value;
