@@ -50,3 +50,14 @@ maxParticles.addEventListener('change', e => {
   maxParticlesDisplay.innerHTML = value;
   particles.maxParticles = value;
 });
+
+// _____________ MIN PARTICLES SIZE _____________
+const minParticleSize = $('#min-particle-size input[type="range"]');
+const minParticleSizeDisplay = $('#min-particle-size .display');
+minParticleSize.value = particles.minParticleSize;
+minParticleSizeDisplay.innerHTML = particles.minParticleSize;
+minParticleSize.addEventListener('change', e => {
+  const { value } = e.target;
+  minParticleSizeDisplay.innerHTML = value;
+  particles.minParticleSize = value;
+});
