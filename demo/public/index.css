@@ -23,6 +23,12 @@ main {
   border: 1px solid #ed6767;
 }
 
+p {
+  font-size: 18px;
+  line-height: 1em;
+  margin: 0;
+}
+
 @media screen and (min-width: 600px) {
   main {
     max-width: 30vw;
@@ -35,12 +41,6 @@ main {
   #options-ctr {
     margin-top: 20px;
   }
-}
-
-p {
-  font-size: 18px;
-  line-height: 1em;
-  margin: 0;
 }
 
 #options-ctr:not(.active) {
@@ -184,4 +184,53 @@ input[type='range']:focus::-ms-fill-lower {
 }
 input[type='range']:focus::-ms-fill-upper {
   background: #50555c;
+}
+
+/* */
+/* */
+/* */
+/* */
+/* */
+/* */
+.dual-slider {
+  position: relative;
+  height: 65px;
+}
+.dual-slider input {
+  position: absolute;
+  pointer-events: none;
+}
+
+.dual-slider input::-webkit-slider-thumb {
+  position: relative;
+  pointer-events: all;
+  z-index: 1;
+  -webkit-appearance: none;
+}
+
+.dual-slider input[type='range']::-moz-range-thumb {
+  pointer-events: all;
+  position: relative;
+  z-index: 10;
+}
+
+.dual-slider input[type='range']::-ms-thumb {
+  pointer-events: all;
+  position: relative;
+  z-index: 10;
+}
+
+.dual-slider input[type='range']::-moz-range-track {
+  position: relative;
+  z-index: -1;
+}
+
+.dual-slider input[type='range']:last-of-type::-moz-range-track {
+  -moz-appearance: none;
+  background: none transparent;
+  border: 0;
+}
+
+.dual-slider input[type='range']::-moz-focus-outer {
+  border: 0;
 }
