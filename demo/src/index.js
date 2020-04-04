@@ -51,19 +51,20 @@ maxParticles.addEventListener('change', e => {
   particles.maxParticles = value;
 });
 
-// _____________ MIN PARTICLES SIZE _____________
-const particleSliders = $a('#min-particle-size input[type="range"]');
-const particleSizeDisplay = $('#min-particle-size .display');
-particleSliders[0].value = particles.minParticleSize;
-particleSliders[1].value = particles.maxParticleSize;
-particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
+// _____________ PARTICLES SIZE _____________
+const sizeSliders = $a('#min-particle-size input[type="range"]');
+const sizeDisplay = $('#min-particle-size .display');
+sizeSliders[0].value = particles.minParticleSize;
+sizeSliders[1].value = particles.maxParticleSize;
+sizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
 
-particleSliders.forEach(el => {
-  el.addEventListener('change', e => {
-    const { value } = e.target;
-    if (value < particles.maxParticleSize) particles.minParticleSize = value;
-    else particles.maxParticleSize = value;
+const sizeCallback = index => e => {
+  const val = Number(e.target.value);
+  const otherVal = Number(sizeSliders[index].value);
 
-    particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
-  });
-});
+  if (val >= otherVal) particles.maxParticleSize = val;
+  else particles.minParticleSize = val;
+  sizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
+};
+sizeSliders[0].addEventListener('change', sizeCallback(1));
+sizeSliders[1].addEventListener('change', sizeCallback(0));

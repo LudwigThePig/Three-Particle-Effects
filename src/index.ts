@@ -58,6 +58,7 @@ export default class ParticleSystem implements IParticleSystem {
 
   createPaticle(): void {
     const size = randomBoundedFloat(this.minParticleSize, this.maxParticleSize);
+
     const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
