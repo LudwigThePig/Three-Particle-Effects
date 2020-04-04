@@ -1,6 +1,9 @@
 import * as THREE from 'three';
-import ParticleSystem from '../../lib';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import orbitControls from 'three-orbit-controls';
+
+import ParticleSystem from '../../lib';
+
 const OrbitControls = orbitControls(THREE);
 
 /* *********
@@ -36,20 +39,24 @@ camera.lookAt(scene.position);
 const controls = new OrbitControls(camera, document.getElementById('canvas-container'));
 controls.minDistance = 0;
 controls.maxDistance = 40;
+/**✨✨✨✨✨✨✨✨
+ *  Particle Effects ✨
+ ✨✨✨✨✨✨✨✨ */
+export let particles;
 
 /* ***********
  * Character *
  *********** */
-const characterGeometry = new THREE.BoxGeometry(1, 1, 1);
-const characterMaterial = new THREE.MeshPhongMaterial({ color: 0xed6767 });
-const character = new THREE.Mesh(characterGeometry, characterMaterial);
-character.rotateY(Math.PI / 3);
-scene.add(character);
-
-/**✨✨✨✨✨✨✨✨
- *  Particle Effects ✨
- ✨✨✨✨✨✨✨✨ */
-export const particles = new ParticleSystem(character, {});
+const monkeyLoader = new GLTFLoader();
+let monkey;
+const monkeyLoadCallback = gltf => {
+  monkey = gltf.scene;
+  monkey.rotateY(Math.PI);
+  scene.add(monkey);
+  particles = new ParticleSystem(monkey, {});
+  draw();
+};
+monkeyLoader.load('monkey.glb', monkeyLoadCallback);
 
 /* ***************
  * Main Game Loop *
@@ -73,5 +80,4 @@ window.addEventListener('resize', onWindowResize);
 
 window.onload = () => {
   document.getElementById('canvas-container').appendChild(renderer.domElement);
-  draw();
 };

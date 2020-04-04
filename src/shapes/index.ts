@@ -12,7 +12,7 @@ export default class BaseShape implements IShape {
     this.geometry = geometry;
     this.geometry.computeBoundingBox();
     const { x, y, z } = this.geometry.boundingBox.max.sub(this.geometry.boundingBox.min);
-    this.geometry.translate(-x / 2, -y / 2, -z / 2);
+    // // // this.geometry.translate(-x / 4, -y / 4, -z / 4);
     this.bakedVertices = bakedVertices || 100;
     if (this.bakedVertices) this.bakeRandomValues(this.bakedVertices);
   }
