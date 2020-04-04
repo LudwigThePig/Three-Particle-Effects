@@ -5,7 +5,6 @@ const $a = query => document.querySelectorAll(query); // this feels so wrong
 
 const btn = document.getElementById('toggle-options');
 const ctr = document.getElementById('options-ctr');
-
 // If dev, display ctr by default
 if (window.location.host.slice(0, 9) === 'localhost') {
   ctr.classList.toggle('active');
@@ -62,12 +61,9 @@ particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.max
 particleSliders.forEach(el => {
   el.addEventListener('change', e => {
     const { value } = e.target;
-    if (value < particles.minParticleSize && value < particles.maxParticleSize) {
-      particleSizeDisplay.innerHTML = `${value} to ${particles.maxParticleSize}`;
-      particles.minParticleSize = value;
-    } else {
-      particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${value}`;
-      particles.minParticleSize = value;
-    }
+    if (value < particles.maxParticleSize) particles.minParticleSize = value;
+    else particles.maxParticleSize = value;
+
+    particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
   });
 });
