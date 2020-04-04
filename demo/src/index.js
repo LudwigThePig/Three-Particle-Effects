@@ -1,70 +1,85 @@
-import { particles } from './scene';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import orbitControls from 'three-orbit-controls';
+import optionsController from './ui';
 
-const $ = query => document.querySelector(query); // this feels so wrong
-const $a = query => document.querySelectorAll(query); // this feels so wrong
+import ParticleSystem from '../../lib';
 
-const btn = document.getElementById('toggle-options');
-const ctr = document.getElementById('options-ctr');
-// If dev, display ctr by default
-if (window.location.host.slice(0, 9) === 'localhost') {
-  ctr.classList.toggle('active');
-  btn.classList.toggle('active');
-}
+const OrbitControls = orbitControls(THREE);
 
-btn.addEventListener('click', e => {
-  e.preventDefault();
-  btn.classList.toggle('active');
-  ctr.classList.toggle('active');
-});
+/* *********
+ * Renderer *
+ ********** */
+const renderer = new THREE.WebGLRenderer();
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-// _____________ PARTICLES VELOCITY  _____________
-const particleVelocityInput = $('#particle-velocity input[type="range"]');
-const particleVelocityDisplay = $('#particle-velocity .display');
-particleVelocityInput.value = particles.particleVelocity;
-particleVelocityDisplay.innerHTML = particles.particleVelocity;
+/* ******
+ * Scene *
+ ******* */
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
 
-particleVelocityInput.addEventListener('change', e => {
-  const { value } = e.target;
-  particleVelocityDisplay.innerHTML = value;
-  particles.particleVelocity = value;
-});
+/* *******
+ * Lights *
+ ******** */
+const ambientLight = new THREE.AmbientLight(0xfefefe, 0.8); // soft white light
+const pointLight = new THREE.PointLight(0xfefefe, 0.8, 10);
+pointLight.position.set(2, 2, -1.5);
+scene.add(pointLight);
+scene.add(ambientLight);
 
-// _____________ PARTICLES PER SECOND _____________
-const particlePerSecond = $('#particle-per-second input[type="range"]');
-const particlePerSecondDisplay = $('#particle-per-second .display');
-particlePerSecond.value = particles.particlesPerSecond;
-particlePerSecondDisplay.innerHTML = particles.particlesPerSecond;
-particlePerSecond.addEventListener('change', e => {
-  const { value } = e.target;
-  particlePerSecondDisplay.innerHTML = value;
-  particles.particlesPerSecond = value;
-});
+/* *******
+ * Camera *
+ ******** */
+const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);
+camera.position.set(0, 1, -8);
+camera.lookAt(scene.position);
+const controls = new OrbitControls(camera, document.getElementById('canvas-container'));
+controls.minDistance = 0;
+controls.maxDistance = 40;
+/**✨✨✨✨✨✨✨✨
+ *  Particle Effects ✨
+ ✨✨✨✨✨✨✨✨ */
+export let particles;
 
-// _____________ MAX PARTICLES _____________
-const maxParticles = $('#max-particles input[type="range"]');
-const maxParticlesDisplay = $('#max-particles .display');
-maxParticles.value = particles.maxParticles;
-maxParticlesDisplay.innerHTML = particles.maxParticles;
-maxParticles.addEventListener('change', e => {
-  const { value } = e.target;
-  maxParticlesDisplay.innerHTML = value;
-  particles.maxParticles = value;
-});
-
-// _____________ PARTICLES SIZE _____________
-const sizeSliders = $a('#min-particle-size input[type="range"]');
-const sizeDisplay = $('#min-particle-size .display');
-sizeSliders[0].value = particles.minParticleSize;
-sizeSliders[1].value = particles.maxParticleSize;
-sizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
-
-const sizeCallback = index => e => {
-  const val = Number(e.target.value);
-  const otherVal = Number(sizeSliders[index].value);
-
-  if (val >= otherVal) particles.maxParticleSize = val;
-  else particles.minParticleSize = val;
-  sizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
+/* ***********
+ * Character *
+ *********** */
+const monkeyLoader = new GLTFLoader();
+let monkey;
+const monkeyLoadCallback = gltf => {
+  monkey = gltf.scene;
+  monkey.rotateY(Math.PI);
+  scene.add(monkey);
+  particles = new ParticleSystem(monkey, {});
+  draw();
+  optionsController(particles);
 };
-sizeSliders[0].addEventListener('change', sizeCallback(1));
-sizeSliders[1].addEventListener('change', sizeCallback(0));
+monkeyLoader.load('monkey.glb', monkeyLoadCallback);
+
+/* ***************
+ * Main Game Loop *
+ **************** */
+const draw = () => {
+  renderer.render(scene, camera);
+  requestAnimationFrame(draw);
+  particles.update();
+  controls.update();
+};
+
+/* *********************
+ * MISC EVENT LISTENERS *
+ ********************** */
+const onWindowResize = () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+};
+window.addEventListener('resize', onWindowResize);
+
+window.onload = () => {
+  document.getElementById('canvas-container').appendChild(renderer.domElement);
+};
