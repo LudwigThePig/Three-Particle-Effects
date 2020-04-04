@@ -16,7 +16,7 @@ export default class ParticleSystem implements IParticleSystem {
   ];
   isPlaying: boolean = true;
   loop: boolean = true;
-  maxParticleSize: number = 0.1;
+  maxParticleSize: number = 0.3;
   maxParticles: number = 100;
   minParticleSize: number = 0.1;
   particleLifetime: number = 2000; // in MS

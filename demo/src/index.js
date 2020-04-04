@@ -57,18 +57,16 @@ const particleSliders = $a('#min-particle-size input[type="range"]');
 const particleSizeDisplay = $('#min-particle-size .display');
 particleSliders[0].value = particles.minParticleSize;
 particleSliders[1].value = particles.maxParticleSize;
-particleSizeDisplay.innerHTML = particles.minParticleSize;
+particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${particles.maxParticleSize}`;
 
 particleSliders.forEach(el => {
   el.addEventListener('change', e => {
     const { value } = e.target;
-    const min = particleSliders.minParticleSize;
-    const max = particleSliders.maxParticleSize;
-    if (value < min && value < max) {
-      particleSizeDisplay.innerHTML = `${value} to ${max}`;
+    if (value < particles.minParticleSize && value < particles.maxParticleSize) {
+      particleSizeDisplay.innerHTML = `${value} to ${particles.maxParticleSize}`;
       particles.minParticleSize = value;
     } else {
-      particleSizeDisplay.innerHTML = `${min} to ${value}`;
+      particleSizeDisplay.innerHTML = `${particles.minParticleSize} to ${value}`;
       particles.minParticleSize = value;
     }
   });
