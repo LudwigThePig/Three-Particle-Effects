@@ -1,5 +1,10 @@
+interface numberRange {
+  start: number;
+  end: number;
+}
 export type vectorTuple = [THREE.Vector3, THREE.Vector3];
 export type color = number | string;
+export type colorRange = null | numberRange;
 export declare type particleTuple = [number, THREE.Mesh]; // [timestamp, theParticleMesh]
 
 export interface IShape {
@@ -23,6 +28,8 @@ export interface IParticleOptions {
   minParticleSize?: number;
   maxParticleSize?: number;
   color?: color; // Hexadecimal RGB
+  colorOverTime: colorRange;
+
   playOnLoad?: boolean;
   duration?: number;
   loop?: boolean;
@@ -32,6 +39,7 @@ export interface IParticleOptions {
 
 export interface IParticleSystem extends IParticleOptions {
   color: number | string; // Hexadecimal RGB
+  colorOverTime: colorRange;
   initialRotationRange: [THREE.Vector3, THREE.Vector3];
   maxParticles: number;
   particleLifetime: number;
