@@ -23,7 +23,7 @@ const optionsController = particles => {
   particleVelocityDisplay.innerHTML = particles.particleVelocity;
 
   particleVelocityInput.addEventListener('change', e => {
-    const { value } = e.target;
+    const value = Number(e.target.value);
     particleVelocityDisplay.innerHTML = value;
     particles.particleVelocity = value;
   });
@@ -34,7 +34,7 @@ const optionsController = particles => {
   particlePerSecond.value = particles.particlesPerSecond;
   particlePerSecondDisplay.innerHTML = particles.particlesPerSecond;
   particlePerSecond.addEventListener('change', e => {
-    const { value } = e.target;
+    const value = Number(e.target.value);
     particlePerSecondDisplay.innerHTML = value;
     particles.particlesPerSecond = value;
   });
@@ -45,7 +45,7 @@ const optionsController = particles => {
   maxParticles.value = particles.maxParticles;
   maxParticlesDisplay.innerHTML = particles.maxParticles;
   maxParticles.addEventListener('change', e => {
-    const { value } = e.target;
+    const value = Number(e.target.value);
     maxParticlesDisplay.innerHTML = value;
     particles.maxParticles = value;
   });
@@ -56,7 +56,7 @@ const optionsController = particles => {
   maxAge.value = particles.maxAge;
   maxAgeDisplay.innerHTML = particles.maxAge;
   maxAge.addEventListener('change', e => {
-    const { value } = e.target;
+    const value = Number(e.target.value);
     maxAgeDisplay.innerHTML = value;
     particles.maxAge = value;
   });
