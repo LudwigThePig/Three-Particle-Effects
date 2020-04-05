@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { randomBoundedFloat } from './utils/random';
+import { lerpHexRGB } from './utils/lerp';
 import { IParticleSystem, IParticleOptions, vectorTuple, particleTuple, color, IShape, colorRange } from './types';
 import { Object3D, Vector3 } from 'three';
 import PlaneShape from './shapes/plane';
@@ -7,7 +8,7 @@ import { isBool } from './utils/typeCheck';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
-  colorOverTime: colorRange = null;
+  colorOverTime: colorRange = [0xed6767, 0x11e8bb];
   duration: number = 2000; // in MS
   elapsedTime: number = 0;
   initialRotationRange: vectorTuple = [
@@ -37,7 +38,7 @@ export default class ParticleSystem implements IParticleSystem {
   constructor(target: Object3D, options: IParticleOptions) {
     // User Defined Values
     this.color = options.color || this.color;
-    this.colorOverTime = options.colorOverTime || null;
+    this.colorOverTime = options.colorOverTime || this.colorOverTime;
     this.duration = options.duration || this.duration;
     this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
     this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
@@ -60,13 +61,16 @@ export default class ParticleSystem implements IParticleSystem {
   }
 
   createPaticle(): void {
+    // const size = randomBoundedFloat(this.minParticleSize, this.maxParticleSize);
+
+    // const newParticle = this.mesh.clone(true);
+    // newParticle.scale.set(size, size, size);
     const size = randomBoundedFloat(this.minParticleSize, this.maxParticleSize);
 
     const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
-    const newParticle = this.mesh.clone(true);
-    newParticle.scale.set(size, size, size);
+    const newParticle = new THREE.Mesh(geometry, material);
     const [u, v] = this.shape.getVertex();
 
     // todo: get and set global rotation
@@ -109,6 +113,7 @@ export default class ParticleSystem implements IParticleSystem {
       this.stop();
       return;
     }
+    const now = Date.now();
 
     // create new particles
     if (this.loop || this.elapsedTime < this.duration) {
@@ -118,7 +123,7 @@ export default class ParticleSystem implements IParticleSystem {
     }
 
     // cull old particles
-    const timeThreshold = Date.now() - this.particleLifetime;
+    const timeThreshold = now - this.particleLifetime;
     for (let i = 0; i < this.particleQueue.length; i++) {
       if (this.particleQueue[i][0] < timeThreshold) {
         const removed = this.particleQueue.splice(0, i + 1);
@@ -135,6 +140,12 @@ export default class ParticleSystem implements IParticleSystem {
 
     // update current particles
     this.particleQueue.forEach(([timestamp, mesh]: particleTuple) => {
+      if (this.colorOverTime !== null) {
+        const lerpAlpha = (now - timestamp) / this.particleLifetime;
+        const newColor = lerpHexRGB(this.colorOverTime[0], this.colorOverTime[1], lerpAlpha);
+
+        mesh.material.color.setHex(newColor);
+      }
       mesh.getWorldPosition(mesh.position);
       mesh.position.y += this.particleVelocity * deltaTime;
     });
