@@ -50,6 +50,17 @@ const optionsController = particles => {
     particles.maxParticles = value;
   });
 
+  // _____________ MAX AGE _____________
+  const maxAge = $('#max-age input[type="range"]');
+  const maxAgeDisplay = $('#max-age .display');
+  maxAge.value = particles.maxAge;
+  maxAgeDisplay.innerHTML = particles.maxAge;
+  maxAge.addEventListener('change', e => {
+    const { value } = e.target;
+    maxAgeDisplay.innerHTML = value;
+    particles.maxAge = value;
+  });
+
   // _____________ PARTICLES SIZE _____________
   const sizeSliders = $a('#min-particle-size input[type="range"]');
   const sizeDisplay = $('#min-particle-size .display');

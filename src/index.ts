@@ -8,7 +8,7 @@ import { isBool } from './utils/typeCheck';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
-  colorOverTime: colorRange = [0xed6767, 0x11e8bb];
+  colorOverTime: colorRange = [0xffffff, 0];
   duration: number = 2000; // in MS
   elapsedTime: number = 0;
   initialRotationRange: vectorTuple = [
