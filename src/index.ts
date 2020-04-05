@@ -6,7 +6,6 @@ import PlaneShape from './shapes/plane';
 import { isBool } from './utils/typeCheck';
 
 export default class ParticleSystem implements IParticleSystem {
-  color: color = 0xedaa67;
   duration: number = 2000; // in MS
   elapsedTime: number = 0;
   initialRotationRange: vectorTuple = [
@@ -18,7 +17,7 @@ export default class ParticleSystem implements IParticleSystem {
   loop: boolean = true;
   maxParticleSize: number = 0.3;
   maxParticles: number = 100;
-  mesh: THREE.Mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: this.color }));
+  mesh: THREE.Mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xedaa67 }));
   minParticleSize: number = 0.1;
   particleLifetime: number = 2000; // in MS
   particleQueue: particleTuple[] = [];
@@ -35,7 +34,6 @@ export default class ParticleSystem implements IParticleSystem {
 
   constructor(target: Object3D, options: IParticleOptions) {
     // User Defined Values
-    this.color = options.color || this.color;
     this.duration = options.duration || this.duration;
     this.initialRotationRange = options.initialRotationRange || this.initialRotationRange;
     this.isPlaying = isBool(options.playOnLoad) ? options.playOnLoad || false : this.isPlaying;
@@ -65,6 +63,7 @@ export default class ParticleSystem implements IParticleSystem {
 
     const newParticle = this.mesh.clone(true);
     newParticle.scale.set(size, size, size);
+    newParticle.material.color.setHex(this.color);
     const [u, v] = this.shape.getVertex();
 
     // todo: get and set global rotation
