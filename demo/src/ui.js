@@ -78,6 +78,17 @@ const optionsController = particles => {
   };
   sizeSliders[0].addEventListener('change', sizeCallback(1));
   sizeSliders[1].addEventListener('change', sizeCallback(0));
+
+  // _____________ COLOR RANGE _____________
+  const colorRange = $a('#color-range input[type="text"]');
+  const colorRegex = /#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/;
+
+  colorRange.forEach(el => {
+    console.log(el.value);
+    el.onchange = function () {
+      console.log(this.value);
+    };
+  });
 };
 
 export default optionsController;
