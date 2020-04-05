@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from './utils/random';
 import { IParticleSystem, IParticleOptions, vectorTuple, particleTuple, color, IShape } from './types';
-import { Object3D, Vector3 } from 'three';
+import { Object3D, Vector3, Vector2 } from 'three';
 import PlaneShape from './shapes/plane';
 import { isBool } from './utils/typeCheck';
 
@@ -18,6 +18,7 @@ export default class ParticleSystem implements IParticleSystem {
   loop: boolean = true;
   maxParticleSize: number = 0.3;
   maxParticles: number = 100;
+  mesh: THREE.Mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: this.color }));
   minParticleSize: number = 0.1;
   particleLifetime: number = 2000; // in MS
   particleQueue: particleTuple[] = [];
@@ -62,7 +63,8 @@ export default class ParticleSystem implements IParticleSystem {
     const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
-    const newParticle = new THREE.Mesh(geometry, material);
+    const newParticle = this.mesh.clone(true);
+    newParticle.scale.set(size, size, size);
     const [u, v] = this.shape.getVertex();
 
     // todo: get and set global rotation
