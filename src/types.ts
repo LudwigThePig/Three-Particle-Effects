@@ -16,7 +16,7 @@ export interface IShape {
 export interface IParticleOptions {
   initialRotationRange?: vectorTuple;
   maxParticles?: number;
-  particleLifetime?: number;
+  maxAge?: number;
   particlesPerSecond?: number;
   particleVelocity?: number;
   rotationRate?: number;
@@ -37,7 +37,7 @@ export interface IParticleSystem extends IParticleOptions {
   colorOverTime: colorRange;
   initialRotationRange: [THREE.Vector3, THREE.Vector3];
   maxParticles: number;
-  particleLifetime: number;
+  maxAge: number;
   particlesPerSecond: number;
   particleVelocity: number;
   rotationRate: number;

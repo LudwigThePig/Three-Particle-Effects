@@ -22,7 +22,7 @@ export default class ParticleSystem implements IParticleSystem {
   maxParticles: number = 100;
   mesh: THREE.Mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: this.color }));
   minParticleSize: number = 0.1;
-  particleLifetime: number = 2000; // in MS
+  maxAge: number = 2000; // in MS
   particleQueue: particleTuple[] = [];
   particleVelocity: number = 1; // units per second
   particlesPerSecond: number = 50;
@@ -46,7 +46,7 @@ export default class ParticleSystem implements IParticleSystem {
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
     this.maxParticles = options.maxParticles || this.maxParticles;
     this.minParticleSize = options.minParticleSize || options.maxParticleSize || this.minParticleSize;
-    this.particleLifetime = options.particleLifetime || this.particleLifetime;
+    this.maxAge = options.maxAge || this.maxAge;
     this.particleVelocity = options.particleVelocity || this.particleVelocity;
     this.particlesPerSecond = options.particlesPerSecond || this.particlesPerSecond;
     this.radius = options.radius || this.radius;
@@ -123,7 +123,7 @@ export default class ParticleSystem implements IParticleSystem {
     }
 
     // cull old particles
-    const timeThreshold = now - this.particleLifetime;
+    const timeThreshold = now - this.maxAge;
     for (let i = 0; i < this.particleQueue.length; i++) {
       if (this.particleQueue[i][0] < timeThreshold) {
         const removed = this.particleQueue.splice(0, i + 1);
@@ -141,7 +141,7 @@ export default class ParticleSystem implements IParticleSystem {
     // update current particles
     this.particleQueue.forEach(([timestamp, mesh]: particleTuple) => {
       if (this.colorOverTime !== null) {
-        const lerpAlpha = (now - timestamp) / this.particleLifetime;
+        const lerpAlpha = (now - timestamp) / this.maxAge;
         const newColor = lerpHexRGB(this.colorOverTime[0], this.colorOverTime[1], lerpAlpha);
 
         mesh.material.color.setHex(newColor);
