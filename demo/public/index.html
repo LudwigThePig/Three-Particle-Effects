@@ -45,9 +45,11 @@
       <!-- COLOR PICKERS -->
       <div class="input-ctr" id="color-range">
         <p>Start Color</p>
-        <input type="text" value="#BEE" />
+        <p class="invalid-input hidden">Not a valid color code</p>
+        <input type="text" maxlength="7" value="#BEE" />
         <p>End Color</p>
-        <input type="text" value="#C0FFEE" />
+        <p class="invalid-input hidden">Not a valid color code</p>
+        <input type="text" maxlength="7" value="#C0FFEE" />
       </div>
 
       <button name="toggle-options" role="button" id="toggle-options">Options</button>

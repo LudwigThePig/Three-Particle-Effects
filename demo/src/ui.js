@@ -1,3 +1,5 @@
+import { debounce } from './utils';
+
 const optionsController = particles => {
   const $ = query => document.querySelector(query); // this feels so wrong
   const $a = query => document.querySelectorAll(query); // this feels so wrong
@@ -81,13 +83,21 @@ const optionsController = particles => {
 
   // _____________ COLOR RANGE _____________
   const colorRange = $a('#color-range input[type="text"]');
+  const colorErrMessage = $a('#color-range .invalid-input');
   const colorRegex = /#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/;
-
-  colorRange.forEach(el => {
-    console.log(el.value);
-    el.onchange = function () {
-      console.log(this.value);
-    };
+  colorRange.forEach((el, i) => {
+    el.addEventListener(
+      'input',
+      debounce(e => {
+        const { value } = e.target;
+        if (!colorRegex.test(value)) colorErrMessage[i].classList.remove('hidden');
+        else {
+          colorErrMessage[i].classList.add('hidden');
+          const int = hexStringToInt(value);
+          console.log(int);
+        }
+      }, 1000),
+    );
   });
 };
 
