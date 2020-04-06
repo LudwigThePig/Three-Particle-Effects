@@ -1,4 +1,4 @@
-import { debounce } from './utils';
+import { debounce, hexStringToInt } from './utils';
 
 const optionsController = particles => {
   const $ = query => document.querySelector(query); // this feels so wrong
