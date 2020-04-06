@@ -94,7 +94,7 @@ const optionsController = particles => {
         else {
           colorErrMessage[i].classList.add('hidden');
           const int = hexStringToInt(value);
-          console.log(int);
+          particles.colorOverTime[i] = int;
         }
       }, 1000),
     );

@@ -18,5 +18,5 @@ export const hexStringToInt = str => {
       .split('')
       .forEach(ch => (slice += ch + ch));
   }
-  return res;
+  return parseInt(slice, 16);
 };
