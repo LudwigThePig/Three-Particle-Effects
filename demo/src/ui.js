@@ -83,9 +83,13 @@ const optionsController = particles => {
 
   // _____________ COLOR RANGE _____________
   const colorRange = $a('#color-range input[type="text"]');
+  const colorDisplay = $a('#color-range .color-display');
   const colorErrMessage = $a('#color-range .invalid-input');
   const colorRegex = /#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/;
   colorRange.forEach((el, i) => {
+    colorDisplay[i].style.background = colorRange[i].value;
+    particles.colorOverTime[i] = hexStringToInt(colorRange[i].value);
+
     el.addEventListener(
       'input',
       debounce(e => {
@@ -95,6 +99,7 @@ const optionsController = particles => {
           colorErrMessage[i].classList.add('hidden');
           const int = hexStringToInt(value);
           particles.colorOverTime[i] = int;
+          colorDisplay[i].style.background = value;
         }
       }, 1000),
     );

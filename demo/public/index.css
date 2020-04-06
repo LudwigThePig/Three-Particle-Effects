@@ -34,6 +34,11 @@ p {
 .hidden {
   display: none;
 }
+.row {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
 .invalid-input {
   color: #ea2100;
 }
@@ -124,6 +129,13 @@ button:focus {
   100% {
     background-position: 100% 50%;
   }
+}
+
+input[type='text'] {
+  padding: 0.4em 0.2em;
+  text-align: center;
+  font-size: 1em;
+  border: none;
 }
 
 input[type='range'] {
@@ -258,4 +270,14 @@ input[type='range']:focus::-ms-fill-upper {
 
 .dual-slider input[type='range']::-moz-focus-outer {
   border: 0;
+}
+
+#color-range input {
+  width: 100px;
+  margin-top: 0.6em;
+}
+.color-display {
+  height: 2em;
+  width: 2em;
+  background: white;
 }
