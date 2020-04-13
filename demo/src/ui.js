@@ -83,6 +83,7 @@ const optionsController = particles => {
 
   // _____________ COLOR RANGE _____________
   const colorRange = $a('#color-range input[type="text"]');
+  const colorRangeCtr = $('#color-range');
   const colorDisplay = $a('#color-range .color-display');
   const colorErrMessage = $a('#color-range .invalid-input');
   const colorRegex = /#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/;
@@ -103,6 +104,17 @@ const optionsController = particles => {
         }
       }, 1000),
     );
+  });
+
+  // _____________ COLOR RANGE TOGGLE _____________
+  const colorRangeToggle = $('#color-range-toggle');
+  colorRangeToggle.addEventListener('change', e => {
+    const { checked } = e.target;
+    if (checked) {
+      colorRangeCtr.classList.remove('hidden');
+    } else {
+      colorRangeCtr.classList.add('hidden');
+    }
   });
 };
 
