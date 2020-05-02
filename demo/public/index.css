@@ -233,6 +233,15 @@ input[type='range']:focus::-ms-fill-upper {
   background: #50555c;
 }
 
+select {
+  padding: 0.4em 1.2em;
+  margin: 0.4em 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1em;
+  border-radius: 5px;
+}
+
 .onoffswitch {
   position: relative;
   width: 80px;
