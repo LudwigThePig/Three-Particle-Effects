@@ -14,8 +14,6 @@ export default class BaseShape implements IShape {
     this.geometry = geometry;
     this.geometry.computeBoundingBox();
     this.geometry.computeFaceNormals;
-    const { x, y, z } = this.geometry.boundingBox.max.sub(this.geometry.boundingBox.min);
-    // this.geometry.translate(-x / 4, -y / 4, -z / 4);
     this.bakedVertices = options.bakedVertices || 100;
     this.vertexLocation = options.vertexLocation !== undefined ? options.vertexLocation : vertexLocationEnum.Volume;
     if (this.bakedVertices) this.bakeRandomValues(this.bakedVertices);
