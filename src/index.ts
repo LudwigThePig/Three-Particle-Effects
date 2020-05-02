@@ -148,7 +148,7 @@ export default class ParticleSystem implements IParticleSystem {
         mesh.material.color.setHex(newColor);
       }
       mesh.getWorldPosition(mesh.position);
-      mesh.position.add(mesh.scalar.clone().multiplyScalar(0.01)); // += this.particleVelocity * deltaTime;
+      mesh.position.add(mesh.scalar.clone().multiplyScalar(this.particleVelocity * deltaTime));
     });
 
     this.elapsedTime = Date.now() - this.startTime;
