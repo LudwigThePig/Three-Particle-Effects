@@ -1,20 +1,23 @@
 import * as THREE from 'three';
-import { IShape, vectorTuple } from '../types';
+import { IShape, vectorTuple, IShapeOptions } from '../types';
 import { randomArrayItem, randomBoundedFloat, randomBoundedVec3 } from '../utils/random';
 import { Vector3 } from 'three';
+import { vertexLocationEnum } from '../constants';
 
 export default class BaseShape implements IShape {
   geometry: THREE.Geometry;
   bakedVertices: number = 100;
   randomPoints: Array<vectorTuple> = [];
+  vertexLocation: vertexLocationEnum;
 
-  constructor(geometry: THREE.Geometry, bakedVertices: number | null) {
+  constructor(geometry: THREE.Geometry, options: IShapeOptions) {
     this.geometry = geometry;
     this.geometry.computeBoundingBox();
     this.geometry.computeFaceNormals;
     const { x, y, z } = this.geometry.boundingBox.max.sub(this.geometry.boundingBox.min);
     // this.geometry.translate(-x / 4, -y / 4, -z / 4);
-    this.bakedVertices = bakedVertices || 100;
+    this.bakedVertices = options.bakedVertices || 100;
+    this.vertexLocation = options.vertexLocation || vertexLocationEnum.Volume;
     if (this.bakedVertices) this.bakeRandomValues(this.bakedVertices);
   }
 
@@ -30,32 +33,31 @@ export default class BaseShape implements IShape {
    */
   generateRandomPoint(): vectorTuple {
     const face = randomArrayItem(this.geometry.faces);
-
+    let vertex;
     const normal = face.normal;
     const [A, B, C] = face.vertexNormals;
+    if (this.vertexLocation === vertexLocationEnum.Face) {
+      const AB = randomBoundedVec3(A, B);
+      const AC = randomBoundedVec3(A, C);
+      vertex = randomBoundedVec3(AB, AC);
+    } else {
+      // Get two random vertices to lerp a value between
+      const a = randomArrayItem(this.geometry.vertices);
+      const b = randomArrayItem(this.geometry.vertices);
 
-    const AB = randomBoundedVec3(A, B);
-    const AC = randomBoundedVec3(A, C);
-    const vertex = randomBoundedVec3(AB, AC);
+      const scalar = Math.random();
+      const x = randomBoundedFloat(this.geometry.boundingBox.min.x, this.geometry.boundingBox.max.x);
+      const y = randomBoundedFloat(this.geometry.boundingBox.min.y, this.geometry.boundingBox.max.y);
+      const z = randomBoundedFloat(this.geometry.boundingBox.min.z, this.geometry.boundingBox.max.z);
 
-    // Get two random vertices to lerp a value between
-    const a = randomArrayItem(this.geometry.vertices);
-    const b = randomArrayItem(this.geometry.vertices);
-
-    const scalar = Math.random();
-    const x = randomBoundedFloat(this.geometry.boundingBox.min.x, this.geometry.boundingBox.max.x);
-    const y = randomBoundedFloat(this.geometry.boundingBox.min.y, this.geometry.boundingBox.max.y);
-    const z = randomBoundedFloat(this.geometry.boundingBox.min.z, this.geometry.boundingBox.max.z);
-
-    // (x1, y1, z1) + scalar * ((x2, y2, z2) - (x1, y1, z1))
-    b.sub(a);
-    b.multiplyScalar(scalar);
-    a.add(b);
-
-    // Placeholder values. Todo: implement proper u and v. Half of the logic is there but I just
-    // need to figure out the 3D projection of ΘXZ and ΘXY
-    const vector: Vector3 = new Vector3(0, Math.PI, 0); // Adjacent to surface
-    return [new Vector3(x, y, z), normal];
+      // (x1, y1, z1) + scalar * ((x2, y2, z2) - (x1, y1, z1))
+      b.sub(a);
+      b.multiplyScalar(scalar);
+      a.add(b);
+      vertex = new Vector3(x, y, z);
+    }
+    console.log(vertex);
+    return [vertex, normal];
   }
 
   bakeRandomValues(verts: number): void {

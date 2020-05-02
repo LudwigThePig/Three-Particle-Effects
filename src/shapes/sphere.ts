@@ -1,15 +1,13 @@
 import * as THREE from 'three';
 import BaseShape from '.';
-import { vectorTuple } from '../types';
-import { Vector3 } from 'three';
-import { randomArrayItem } from '../utils/random';
+import { IShapeOptions } from '../types';
 
 /**
  * This is the most primitive shape
  */
 export default class SphereShape extends BaseShape {
-  constructor(radius: number = 1) {
+  constructor(radius: number = 1, options: IShapeOptions) {
     const shape = new THREE.SphereGeometry(radius, 10, 10);
-    super(shape, 0, Math.PI, 0, 100);
+    super(shape, options);
   }
 }
