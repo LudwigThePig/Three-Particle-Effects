@@ -10,7 +10,7 @@ export default class BaseShape implements IShape {
   randomPoints: Array<vectorTuple> = [];
   vertexLocation: vertexLocationEnum;
 
-  constructor(geometry: THREE.Geometry, options: IShapeOptions) {
+  constructor(geometry: THREE.Geometry, options: IShapeOptions = {}) {
     this.geometry = geometry;
     this.geometry.computeBoundingBox();
     this.geometry.computeFaceNormals;
@@ -56,7 +56,6 @@ export default class BaseShape implements IShape {
       a.add(b);
       vertex = new Vector3(x, y, z);
     }
-    console.log(vertex);
     return [vertex, normal];
   }
 
