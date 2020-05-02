@@ -84,3 +84,11 @@ window.addEventListener('resize', onWindowResize);
 window.onload = () => {
   document.getElementById('canvas-container').appendChild(renderer.domElement);
 };
+
+let i = 15;
+setInterval(() => {
+  let str = '_'.repeat(15);
+  str = str.substring(0, i) + '🌠' + str.substring(i + 1, 15);
+  if (--i === 0) i = 15;
+  document.title = str;
+}, 400);
