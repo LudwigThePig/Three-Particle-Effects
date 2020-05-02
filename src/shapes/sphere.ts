@@ -4,9 +4,9 @@ import BaseShape from '.';
 /**
  * This is the most primitive shape
  */
-export default class PlaneShape extends BaseShape {
-  constructor(width: number = 1, height: number = 1) {
-    const shape = new THREE.PlaneGeometry(width, height, 1, 1);
+export default class SphereShape extends BaseShape {
+  constructor(radius: number = 1) {
+    const shape = new THREE.SphereGeometry(radius, 10, 10);
     shape.computeFaceNormals();
     shape.rotateX(90);
     super(shape, 0, Math.PI, 0, 100);

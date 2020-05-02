@@ -112,6 +112,7 @@ const optionsController = particles => {
     const { checked } = e.target;
     if (checked) {
       colorRangeCtr.classList.remove('hidden');
+      particles.colorRange = null;
     } else {
       colorRangeCtr.classList.add('hidden');
     }
