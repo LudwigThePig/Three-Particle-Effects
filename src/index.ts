@@ -3,9 +3,9 @@ import { randomBoundedFloat } from './utils/random';
 import { lerpHexRGB } from './utils/lerp';
 import { IParticleSystem, IParticleOptions, vectorTuple, particleTuple, color, IShape, colorRange } from './types';
 import { Object3D, Vector3 } from 'three';
-import PlaneShape from './shapes/plane';
 import SphereShape from './shapes/sphere';
 import { isBool } from './utils/typeCheck';
+import { vertexLocationEnum } from './constants';
 
 export default class ParticleSystem implements IParticleSystem {
   color: color = 0xedaa67;
@@ -31,7 +31,7 @@ export default class ParticleSystem implements IParticleSystem {
   radius: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
   rotationRate: number = 0; // in radians
   scene: Object3D | null = null;
-  shape: IShape = new SphereShape();
+  shape: IShape = new SphereShape(null, { vertexLocation: vertexLocationEnum.Face });
   startTime: number;
   target: Object3D;
   worldSpace: boolean = true;
