@@ -8,7 +8,7 @@ export default class BaseShape implements IShape {
   bakedVertices: number = 100;
   randomPoints: Array<vectorTuple> = [];
 
-  constructor(geometry: THREE.Geometry, ΘX: number, ΘY: number, ΘZ: number, bakedVertices: number | null) {
+  constructor(geometry: THREE.Geometry, bakedVertices: number | null) {
     this.geometry = geometry;
     this.geometry.computeBoundingBox();
     this.geometry.computeFaceNormals;
@@ -29,18 +29,33 @@ export default class BaseShape implements IShape {
    * it will not have a hole... Currently researching some possible solutions
    */
   generateRandomPoint(): vectorTuple {
-    // Get a polygon
     const face = randomArrayItem(this.geometry.faces);
-    // Get normal, easy 😸
-    const normal = face.normal;
 
-    // Generate random vertex in polygon
+    const normal = face.normal;
     const [A, B, C] = face.vertexNormals;
+
     const AB = randomBoundedVec3(A, B);
     const AC = randomBoundedVec3(A, C);
     const vertex = randomBoundedVec3(AB, AC);
 
-    return [vertex, normal];
+    // Get two random vertices to lerp a value between
+    const a = randomArrayItem(this.geometry.vertices);
+    const b = randomArrayItem(this.geometry.vertices);
+
+    const scalar = Math.random();
+    const x = randomBoundedFloat(this.geometry.boundingBox.min.x, this.geometry.boundingBox.max.x);
+    const y = randomBoundedFloat(this.geometry.boundingBox.min.y, this.geometry.boundingBox.max.y);
+    const z = randomBoundedFloat(this.geometry.boundingBox.min.z, this.geometry.boundingBox.max.z);
+
+    // (x1, y1, z1) + scalar * ((x2, y2, z2) - (x1, y1, z1))
+    b.sub(a);
+    b.multiplyScalar(scalar);
+    a.add(b);
+
+    // Placeholder values. Todo: implement proper u and v. Half of the logic is there but I just
+    // need to figure out the 3D projection of ΘXZ and ΘXY
+    const vector: Vector3 = new Vector3(0, Math.PI, 0); // Adjacent to surface
+    return [new Vector3(x, y, z), normal];
   }
 
   bakeRandomValues(verts: number): void {
