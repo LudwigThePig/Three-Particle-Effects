@@ -250,7 +250,7 @@ input[type='range']:focus::-ms-fill-upper {
   display: block;
   width: 200%;
   margin-left: -100%;
-  transition: margin 0.3s ease-in 0s;
+  transition: margin 0.2s ease-in 0s;
 }
 .onoffswitch-inner:before,
 .onoffswitch-inner:after {
@@ -289,7 +289,7 @@ input[type='range']:focus::-ms-fill-upper {
   right: 46px;
   border: 2px solid #000000;
   border-radius: 20px;
-  transition: all 0.3s ease-in 0s;
+  transition: all 0.2s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
   margin-left: 0;

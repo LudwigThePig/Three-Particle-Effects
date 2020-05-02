@@ -29,6 +29,7 @@
   "homepage": "https://github.com/LudwigThePig/Three-Particle-Effects#readme",
   "devDependencies": {
     "@types/node": "^13.9.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.0.2",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
