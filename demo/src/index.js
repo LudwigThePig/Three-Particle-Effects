@@ -85,10 +85,11 @@ window.onload = () => {
   document.getElementById('canvas-container').appendChild(renderer.domElement);
 };
 
-let i = 15;
+const len = 20;
+let i = len - 1;
 setInterval(() => {
-  let str = '_'.repeat(15);
-  str = str.substring(0, i) + '🌠' + str.substring(i + 1, 15);
-  if (--i === 0) i = 15;
+  let str = '_'.repeat(len);
+  str = str.substring(0, i) + '🌠' + str.substring(i + 1, len);
+  if (i-- === 0) i = len - 1;
   document.title = str;
 }, 400);
