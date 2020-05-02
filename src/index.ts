@@ -73,7 +73,7 @@ export default class ParticleSystem implements IParticleSystem {
 
     const newParticle = new THREE.Mesh(geometry, material);
     const [u, v] = this.shape.getVertex();
-
+    newParticle.scalar = v;
     // todo: get and set global rotation
     newParticle.rotation.x = randomBoundedFloat(this.initialRotationRange[0].x, this.initialRotationRange[1].x);
     newParticle.rotation.y = randomBoundedFloat(this.initialRotationRange[0].y, this.initialRotationRange[1].y);
@@ -148,7 +148,7 @@ export default class ParticleSystem implements IParticleSystem {
         mesh.material.color.setHex(newColor);
       }
       mesh.getWorldPosition(mesh.position);
-      mesh.position.y += this.particleVelocity * deltaTime;
+      mesh.position.add(mesh.scalar.clone().multiplyScalar(0.01)); // += this.particleVelocity * deltaTime;
     });
 
     this.elapsedTime = Date.now() - this.startTime;
