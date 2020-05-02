@@ -4,6 +4,7 @@ import { lerpHexRGB } from './utils/lerp';
 import { IParticleSystem, IParticleOptions, vectorTuple, particleTuple, color, IShape, colorRange } from './types';
 import { Object3D, Vector3 } from 'three';
 import PlaneShape from './shapes/plane';
+import SphereShape from './shapes/sphere';
 import { isBool } from './utils/typeCheck';
 
 export default class ParticleSystem implements IParticleSystem {
@@ -30,7 +31,7 @@ export default class ParticleSystem implements IParticleSystem {
   radius: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
   rotationRate: number = 0; // in radians
   scene: Object3D | null = null;
-  shape: IShape = new PlaneShape();
+  shape: IShape = new SphereShape();
   startTime: number;
   target: Object3D;
   worldSpace: boolean = true;
