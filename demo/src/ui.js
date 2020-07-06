@@ -106,17 +106,9 @@ const optionsController = particles => {
     );
   });
 
-  // _____________ COLOR RANGE TOGGLE _____________
-  const colorRangeToggle = $('#color-range-toggle');
-  colorRangeToggle.addEventListener('change', e => {
-    const { checked } = e.target;
-    if (checked) {
-      colorRangeCtr.classList.remove('hidden');
-      particles.colorRange = null;
-    } else {
-      colorRangeCtr.classList.add('hidden');
-    }
-  });
+  console.log(particles.shape.vertexLocation);
+  particles.shape.vertexLocation = 1;
+  // particles.shape.bakeRandomValues(); // * YOu ended here silly
 };
 
 export default optionsController;
