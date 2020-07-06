@@ -58,8 +58,10 @@ export default class BaseShape implements IShape {
   }
 
   bakeRandomValues(verts: number): void {
+    const temp: Array<vectorTuple> = [];
     for (let i = 0; i < verts; i++) {
-      this.randomPoints.push(this.generateRandomPoint());
+      temp.push(this.generateRandomPoint());
     }
+    this.randomPoints = temp;
   }
 }
