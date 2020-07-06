@@ -2,6 +2,8 @@
 
 A particle effect system for Three.js
 
+[Click here to see a demo](https://morgangalvin-com-282516.ue.r.appspot.com/)
+
 # Installation
 
 Simply install the package.

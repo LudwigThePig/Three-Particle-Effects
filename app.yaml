@@ -1,3 +1,3 @@
-runtime: nodejs10
+runtime: python38
 
-entrypoint: npm run start:gcp
+entrypoint: uwsgi --http-socket :8080 --wsgi-file demo/server/index.py --callable app --master --processes 1 --threads 2

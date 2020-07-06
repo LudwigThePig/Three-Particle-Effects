@@ -7,6 +7,7 @@
     "build": "tsc",
     "dev:build": "tsc --watch",
     "start:gcp": "cd demo && npm run start:prod",
+    "flask": "python -m flask run",
     "test": "test"
   },
   "repository": {
