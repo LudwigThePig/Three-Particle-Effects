@@ -5,7 +5,7 @@
 ```sh
 cd demo
 npm install
-npm start
+npm run start:dev
 ```
 
 Then visit [localhost:3000/](http://localhost:3000/) in your browser.

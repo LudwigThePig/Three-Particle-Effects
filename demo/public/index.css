@@ -8,6 +8,18 @@ body {
   overflow: hidden;
 }
 
+a {
+  color: #ed6767;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 24px;
+}
+
+a:hover {
+  color: #fff;
+}
+
 * {
   box-sizing: border-box;
 }
