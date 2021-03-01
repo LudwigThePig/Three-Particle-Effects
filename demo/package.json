@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.115.0",
+    "three": "^0.125.0",
     "three-orbit-controls": "^82.1.0",
     "webpack": "^4.42.1"
   },
